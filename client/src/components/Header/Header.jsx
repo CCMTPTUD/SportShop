@@ -1,13 +1,21 @@
-import React from 'react';
-import { FiMenu, FiSearch, FiShoppingCart, FiHeart, FiUser } from 'react-icons/fi';
-import './Header.css'; // Import file CSS
+import React from "react";
+import {
+  FiMenu,
+  FiSearch,
+  FiShoppingCart,
+  FiHeart,
+  FiUser,
+} from "react-icons/fi";
+import { Link } from "react-router-dom"; // Import Link từ react-router-dom
+import "./Header.css"; // Import file CSS
 
 const Header = () => {
   return (
     <header className="header-container">
       {/* Top Bar */}
       <div className="top-bar">
-        <div className="brand-name">SPROTSTORE</div>
+        {/* Bật mí nhỏ: Hình như chữ SPORTSTORE đang bị gõ nhầm thành SPROTSTORE nè 😉 */}
+        <div className="brand-name">SPORTSTORE</div>
 
         {/* Thanh tìm kiếm */}
         <div className="search-bar-container">
@@ -22,29 +30,52 @@ const Header = () => {
 
         {/* Nhóm Icons */}
         <div className="icon-group">
-          <div className="icon-item cart">
+          {/* Thay div bằng Link để chuyển hướng mượt mà không reload trang */}
+          <Link
+            to="/cart"
+            className="icon-item cart"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <FiShoppingCart />
-            <span className="cart-badge">2</span> {/* Số lượng giỏ hàng */}
-          </div>
+            <span className="cart-badge">3</span> {/* Số lượng giỏ hàng */}
+          </Link>
+
           <div className="icon-item heart">
             <FiHeart />
           </div>
-          <div className="icon-item user">
+
+          <Link
+            to="/login"
+            className="icon-item user"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <FiUser />
-          </div>
+          </Link>
         </div>
       </div>
 
       {/* Nav Bar */}
       <nav className="nav-bar">
         <div className="nav-links">
-          <a href="/" className="nav-item home">Home</a>
-          <a href="/shop" className="nav-item">Shop</a>
-          <a href="/brand" className="nav-item">Brand</a>
-          <a href="/danh-muc" className="nav-item">Danh mục</a>
-          <a href="/khuyen-mai" className="nav-item promo">Khuyến mãi</a>
-          {/* Đã thêm mục Liên hệ */}
-          <a href="/contact" className="nav-item">Liên hệ</a> 
+          {/* Lời khuyên: Về sau bạn nên thay thẻ <a> bằng thẻ <Link to="..."> để trang web chạy nhanh như một app thực thụ nhé */}
+          <a href="/" className="nav-item home">
+            Home
+          </a>
+          <a href="/shop" className="nav-item">
+            Shop
+          </a>
+          <a href="/brand" className="nav-item">
+            Brand
+          </a>
+          <a href="/danh-muc" className="nav-item">
+            Danh mục
+          </a>
+          <a href="/khuyen-mai" className="nav-item promo">
+            Khuyến mãi
+          </a>
+          <a href="/contact" className="nav-item">
+            Liên hệ
+          </a>
         </div>
       </nav>
     </header>
