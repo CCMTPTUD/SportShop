@@ -1,0 +1,84 @@
+/* Contact.css */
+.contact-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ cho khối trắng */
+  font-family: 'Inter', sans-serif;
+}
+
+.contact-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 40px;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.contact-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Khoảng cách giữa các dòng liên hệ */
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center; /* Căn giữa icon và khối text theo chiều ngang */
+}
+
+/* Khối chứa Icon (Hình tròn đen) */
+.icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: #111;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  flex-shrink: 0; /* Đảm bảo icon không bị bóp méo */
+}
+
+/* Khối chứa Text (Bí quyết fix lỗi nằm ở đây) */
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Ép tất cả chữ bên trong căn lề trái */
+  margin-left: 20px; /* Đẩy chữ xích ra xa icon một chút */
+}
+
+.contact-label {
+  font-size: 0.85rem;
+  color: #888; /* Màu xám cho tiêu đề phụ */
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.contact-value {
+  font-size: 1.1rem;
+  color: #000; /* Màu đen đậm cho nội dung chính */
+  font-weight: 500;
+}
+
+/* Bản đồ Google Maps */
+.map-container {
+  width: 100%;
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}

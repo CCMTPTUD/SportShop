@@ -1,0 +1,140 @@
+/* Header.css */
+.header-container {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid #0ea5e9; /* Đường viền xanh dương nhạt dưới chân Header */
+  background-color: white;
+  width: 100%;
+}
+
+/* Thanh trên cùng (Brand, Search, Icons) */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f1f1f1; /* Đường kẻ mờ chia cách với Nav bar */
+}
+
+/* Brand Name */
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  text-transform: uppercase;
+}
+
+/* Thanh tìm kiếm */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1; /* Chiếm hết chiều rộng có thể */
+  max-width: 600px; /* Giới hạn chiều rộng tối đa */
+  margin: 0 40px; /* Khoảng cách với brand và group icon */
+  padding: 5px 15px;
+  background-color: #e2e0f0; /* Màu nền tím nhạt */
+  border-radius: 50px; /* Bo tròn lớn */
+}
+
+.search-bar-container .hamburger-icon {
+  font-size: 1.2rem;
+  color: #555;
+  margin-right: 15px;
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+  color: #111;
+}
+
+.search-input::placeholder {
+  color: #777;
+}
+
+.search-bar-container .search-icon {
+  font-size: 1.2rem;
+  color: #555;
+  margin-left: 15px;
+}
+
+/* Nhóm Icon bên phải */
+.icon-group {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Khoảng cách giữa các icon */
+}
+
+.icon-group .icon-item {
+  font-size: 1.5rem;
+  color: #222;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Số lượng giỏ hàng */
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ef4444; /* Màu đỏ */
+  color: white;
+  font-size: 0.75rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+/* Thanh Nav bar (Links) */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  font-size: 1rem;
+  color: #222;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* Khoảng cách giữa các link */
+  flex-grow: 1;
+  justify-content: flex-start;
+  margin-left: 110px; /* Căn lề trái giống ảnh */
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  color: #0ea5e9; /* Màu xanh dương nhạt khi hover */
+}
+
+/* Link Home màu xanh dương */
+.nav-item.home {
+  color: #0ea5e9;
+}
+
+/* Khuyến mãi nền vàng */
+.nav-item.promo {
+  background-color: #fbbf24; /* Màu vàng */
+  color: #111;
+  padding: 5px 15px;
+  border-radius: 20px; /* Bo tròn link */
+  font-weight: 600;
+}
+
+.nav-item.promo:hover {
+  background-color: #f59e0b; /* Màu vàng sẫm khi hover */
+}
