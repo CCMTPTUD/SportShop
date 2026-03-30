@@ -1,0 +1,318 @@
+/* client/src/pages/ProductReviews.css */
+.reviews-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: "Inter", sans-serif;
+  color: #111;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.breadcrumb {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 20px;
+  font-style: italic;
+
+  /* Thêm 2 dòng này để ép chữ sát lề trái */
+  text-align: left;
+  width: 100%;
+}
+
+.breadcrumb strong {
+  color: #000;
+  font-style: normal;
+}
+
+/* Header Reviews */
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 20px;
+}
+
+.rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.stars-container {
+  display: flex;
+  gap: 4px;
+  color: #ffc107; /* Màu vàng sao */
+  font-size: 1.2rem;
+}
+
+.rating-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.rating-count {
+  color: #666;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.btn-write-review {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #007bff; /* Màu xanh nút bấm */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-write-review:hover {
+  background-color: #0056b3;
+}
+
+/* Community Gallery */
+.gallery-section {
+  margin-bottom: 30px;
+}
+
+.gallery-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.gallery-images {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.gallery-images::-webkit-scrollbar {
+  height: 6px;
+}
+
+.gallery-images::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+.gallery-img-wrapper {
+  min-width: 120px;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #eaeaea;
+  position: relative;
+  cursor: pointer;
+}
+
+.gallery-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.gallery-img-wrapper:hover img {
+  transform: scale(1.05);
+}
+
+.more-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* Filters & Sorting */
+.reviews-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-pill.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.sort-select {
+  border: none;
+  font-weight: 600;
+  color: #111;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+/* Reviews Grid */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 cột như ảnh */
+  gap: 20px;
+}
+
+.review-card {
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.reviewer-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #e0e0e0;
+}
+
+.reviewer-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.review-rating-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.review-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.review-content {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.review-images {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.review-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.review-footer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: #666;
+  border-top: 1px solid #eaeaea;
+  padding-top: 15px;
+}
+
+.helpfulness {
+  display: flex;
+  gap: 12px;
+}
+
+.help-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.help-btn:hover {
+  color: #007bff;
+}
+
+.report-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-style: italic;
+}
+
+.report-btn:hover {
+  text-decoration: underline;
+}
+
+/* Reponsive cho Mobile */
+@media (max-width: 768px) {
+  .reviews-grid {
+    grid-template-columns: 1fr; /* 1 cột trên điện thoại */
+  }
+}

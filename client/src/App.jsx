@@ -14,6 +14,7 @@ import Contact from "./pages/Contact";
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import Cart from "./pages/Cart";
+import ProductReviews from "./pages/ProductReviews";
 
 // Component Trang chủ (tạm thời)
 const Home = () => {
@@ -54,7 +55,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
-
+        <Route path="/product/:id/reviews" element={<ProductReviews />} />
         <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />
       </Routes>
     </BrowserRouter>
