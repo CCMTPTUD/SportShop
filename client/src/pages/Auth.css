@@ -42,6 +42,10 @@
   background-image: url("https://images.unsplash.com/photo-1549476464-37392f717541?q=80&w=1000");
 }
 
+.forgot-banner {
+  background-image: url("https://images.unsplash.com/photo-1483721310020-03333e577078?q=80&w=1000");
+}
+
 .auth-banner h1 {
   font-size: 4.5rem;
   font-style: italic;

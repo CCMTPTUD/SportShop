@@ -9,6 +9,7 @@ import "./App.css";
 // Import các trang giao diện
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 import Contact from "./pages/Contact";
 
 // Component Trang chủ (tạm thời)
@@ -45,6 +46,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
