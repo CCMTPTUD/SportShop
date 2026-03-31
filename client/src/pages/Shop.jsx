@@ -119,6 +119,25 @@ const Shop = () => {
     window.dispatchEvent(new Event("wishlistUpdated"));
   };
 
+  const trackRecentViewed = (product) => {
+    const id = product._id || product.id;
+    if (!id) return;
+
+    const stored = JSON.parse(localStorage.getItem("recentViewedItems") || "[]");
+    const trimmed = stored.filter((item) => (item._id || item.id) !== id);
+    const next = [
+      {
+        _id: product._id || product.id,
+        name: product.name,
+        price: product.price,
+        imageUrl: product.imageUrl,
+      },
+      ...trimmed,
+    ].slice(0, 8);
+
+    localStorage.setItem("recentViewedItems", JSON.stringify(next));
+  };
+
   return (
     <div className="shop-page">
       {/* Tái sử dụng Header */}
@@ -184,6 +203,7 @@ const Shop = () => {
                   <Link
                     to={`/product/${product._id}`}
                     style={{ textDecoration: "none", color: "inherit" }}
+                    onClick={() => trackRecentViewed(product)}
                   >
                     <div className="product-image-container">
                       {/* Icon Heart Góc phải */}
