@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiMail, FiLock } from "react-icons/fi";
 import axios from "axios";
@@ -24,7 +24,9 @@ const Login = () => {
       // Lưu token và thông tin người dùng vào localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userRole", response.data.role);
-      
+      localStorage.setItem("userEmail", response.data.email || formData.email);
+      localStorage.setItem("userFullName", response.data.fullName || "");
+
       if (response.data.role === "admin") {
         navigate("/admin");
       } else {

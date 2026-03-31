@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiMail, FiLock, FiUser } from "react-icons/fi";
 import axios from "axios";
@@ -20,7 +20,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Mật khẩu nhập lại không khớp!");
+      alert("Máº­t kháº©u nháº­p láº¡i khÃ´ng khá»›p!");
       return;
     }
 
@@ -34,13 +34,15 @@ const Register = () => {
         },
       );
 
-      alert("Đăng ký thành công!");
-      // Lưu token và userRole vào localStorage
+      alert("ÄÄƒng kÃ½ thÃ nh cÃ´ng!");
+      // LÆ°u token vÃ  userRole vÃ o localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userRole", response.data.role);
-      navigate("/"); // Chuyển hướng về trang chủ
+      localStorage.setItem("userEmail", formData.email);
+      localStorage.setItem("userFullName", formData.fullName);
+      navigate("/"); // Chuyá»ƒn hÆ°á»›ng vá» trang chá»§
     } catch (error) {
-      alert(error.response?.data?.message || "Đã có lỗi xảy ra");
+      alert(error.response?.data?.message || "ÄÃ£ cÃ³ lá»—i xáº£y ra");
     }
   };
 
@@ -53,8 +55,8 @@ const Register = () => {
 
       <div className="auth-form-section">
         <div className="auth-form-box">
-          <h2 className="auth-title">Đăng ký tài khoản</h2>
-          <p className="auth-subtitle">Đăng ký tài khoản mới để tiếp tục</p>
+          <h2 className="auth-title">ÄÄƒng kÃ½ tÃ i khoáº£n</h2>
+          <p className="auth-subtitle">ÄÄƒng kÃ½ tÃ i khoáº£n má»›i Ä‘á»ƒ tiáº¿p tá»¥c</p>
 
           <form onSubmit={handleSubmit}>
             <div className="input-group">
@@ -64,7 +66,7 @@ const Register = () => {
                 <input
                   type="text"
                   name="fullName"
-                  placeholder="Nguyễn Văn A"
+                  placeholder="Nguyá»…n VÄƒn A"
                   value={formData.fullName}
                   onChange={handleChange}
                   required
@@ -118,12 +120,12 @@ const Register = () => {
             </div>
 
             <button type="submit" className="btn-submit">
-              Đăng Ký
+              ÄÄƒng KÃ½
             </button>
           </form>
 
           <div className="auth-footer">
-            Đã có tài khoản? <Link to="/login">Đăng Nhập</Link>
+            ÄÃ£ cÃ³ tÃ i khoáº£n? <Link to="/login">ÄÄƒng Nháº­p</Link>
           </div>
         </div>
       </div>
@@ -132,3 +134,4 @@ const Register = () => {
 };
 
 export default Register;
+

@@ -15,6 +15,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import Cart from "./pages/Cart";
 import ProductReviews from "./pages/ProductReviews";
+import Profile from "./pages/Profile";
 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
@@ -38,6 +39,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/product/:id/reviews" element={<ProductReviews />} />
         
         {/* Khu vực được bảo vệ: Dành riêng cho Admin */}
