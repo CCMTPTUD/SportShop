@@ -1,0 +1,151 @@
+/* src/pages/Home.css */
+.home-page {
+  font-family: 'Inter', sans-serif; /* fallback */
+  width: 100%;
+}
+
+.main-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 0 40px 0; /* Loại bỏ padding-top để banner dính sát Header hơn nếu trên thiết kế, nhưng ảnh figma có khoảng trắng một chút. */
+  margin-top: 20px;
+}
+
+.hero-section {
+  width: 100%;
+  max-width: 1100px; /* Nhỏ lại chút cho giống tỉ lệ figma */
+}
+
+.hero-image-container {
+  position: relative;
+  width: 100%;
+  border-radius: 20px; /* Bo tròn góc theo ảnh mẫu */
+  overflow: hidden; /* Cắt phần ảnh thừa ra khỏi viền bo */
+}
+
+.hero-img {
+  width: 100%;
+  height: auto; /* Giữ nguyên tỉ lệ */
+  display: block; /* Tránh khoảng trống bên dưới ảnh */
+  object-fit: cover;
+}
+
+/* Khối nút "Khám phá ngay" */
+.hero-btn {
+  position: absolute;
+  bottom: 40px; 
+  left: 40px; 
+  background-color: #ffffff; 
+  color: #111;
+  padding: 12px 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px; /* Bo nhẹ góc để giống figma */
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Bóng mờ rất nhẹ */
+}
+
+.hero-btn:hover {
+  background-color: #fafafa;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.arrow-icon {
+  font-size: 1.2rem;
+  margin-top: 2px;
+}
+
+/* Khối text thông điệp */
+.hero-texts {
+  position: absolute;
+  bottom: 40px; 
+  right: 40px; 
+  text-align: right; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Căn phải hoàn toàn tất cả các dòng text như trong figma */
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: 4rem; 
+  font-weight: 800;
+  margin: 0 0 15px 0; /* Thêm khoảng cách phía dưới */
+  /* Tạo hiệu ứng chữ 3D viền xám giống figma */
+  text-shadow: 
+    -1px -1px 0 #ccc,  
+     1px -1px 0 #ccc,
+    -1px  1px 0 #ccc,
+     1px  1px 0 #ccc,
+     2px  3px 5px rgba(0, 0, 0, 0.2); 
+  line-height: 1.2; /* Cố định chiều cao dòng để không bị đè */
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  color: #ffffff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 10px 0; /* Thêm khoảng cách phía dưới */
+  line-height: 1.2; /* Cố định chiều cao dòng */
+  text-shadow: 
+    -1px -1px 0 #ccc,  
+     1px -1px 0 #ccc,
+    -1px  1px 0 #ccc,
+     1px  1px 0 #ccc,
+     2px  2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-discount {
+  color: #fca5a5; /* Màu đỏ hồng */
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2; /* Cố định chiều cao dòng */
+  text-shadow: 
+    -1px -1px 0 #fff,  
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff,
+     2px  2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive cơ bản để tương thích các thiết bị nhỏ hơn */
+@media (max-width: 1024px) {
+  .hero-texts {
+    bottom: 20px;
+    right: 40px;
+  }
+  
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1.5rem; }
+  .hero-discount { font-size: 2rem; }
+  
+  .hero-btn { font-size: 1rem; padding: 10px 20px; }
+}
+
+@media (max-width: 768px) {
+  .hero-texts {
+    bottom: 20px;
+    right: 20px;
+    align-items: flex-end; /* Căn phải hoàn toàn trên mobile */
+  }
+  
+  .hero-title { font-size: 1.8rem; }
+  .hero-subtitle { font-size: 1.2rem; }
+  .hero-discount { font-size: 1.5rem; }
+  
+  .hero-btn {
+    bottom: 20px;
+    left: 20px;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
