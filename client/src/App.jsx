@@ -20,6 +20,9 @@ import Home from "./pages/Home";
 import AdminProduct from "./pages/AdminProduct";
 import AdminDashboard from "./pages/AdminDashboard";
 import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
+import AdminProduct from "./pages/AdminProduct";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -38,6 +41,18 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id/reviews" element={<ProductReviews />} />
+        
+        {/* Khu vực được bảo vệ: Dành riêng cho Admin */}
+        <Route path="/admin" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
+        <Route path="/admin/products" element={
+          <AdminRoute>
+            <AdminProduct />
+          </AdminRoute>
+        } />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/products" element={<AdminProduct />} />
         <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />

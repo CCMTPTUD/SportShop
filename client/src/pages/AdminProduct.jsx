@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 const AdminProduct = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -18,6 +20,10 @@ const AdminProduct = () => {
     description: "",
     price: "",
     imageUrl: "",
+    gallery: [], // Mảng lưu các ảnh phụ
+    stock: "",
+    category_id: "", 
+    brand_id: "", 
     stock: "",
     category_id: "60d21b4667d0d8992e610c85", // Placeholder ObjectId
     brand_id: "60d21b4667d0d8992e610c85", // Placeholder ObjectId
@@ -33,6 +39,21 @@ const AdminProduct = () => {
       return;
     }
     fetchProducts();
+    fetchCategoriesAndBrands();
+  }, [navigate]);
+
+  const fetchCategoriesAndBrands = async () => {
+    try {
+      const authConfig = getAuthHeaders(); // Tuỳ API, hiện backend Get /categories và /brands đang mở public
+      const resCategories = await axios.get("http://localhost:5000/api/categories");
+      const resBrands = await axios.get("http://localhost:5000/api/brands");
+      setCategories(resCategories.data);
+      setBrands(resBrands.data);
+    } catch (error) {
+      console.error("Lỗi khi tải Categories/Brands", error);
+    }
+  };
+
   }, [navigate]);
 
   const fetchProducts = async () => {
@@ -70,6 +91,10 @@ const AdminProduct = () => {
         description: product.description || "",
         price: product.price,
         imageUrl: product.imageUrl || "",
+        gallery: product.gallery || [],
+        stock: product.stock,
+        category_id: product.category_id?._id || product.category_id || "",
+        brand_id: product.brand_id?._id || product.brand_id || "",
         stock: product.stock,
         category_id: product.category_id?._id || product.category_id || "60d21b4667d0d8992e610c85",
         brand_id: product.brand_id?._id || product.brand_id || "60d21b4667d0d8992e610c85",
@@ -81,12 +106,31 @@ const AdminProduct = () => {
         description: "",
         price: "",
         imageUrl: "",
+        gallery: [],
+        stock: "",
+        category_id: categories.length > 0 ? categories[0]._id : "",
+        brand_id: brands.length > 0 ? brands[0]._id : "",
         stock: "",
         category_id: "60d21b4667d0d8992e610c85",
         brand_id: "60d21b4667d0d8992e610c85",
       });
     }
     setIsModalOpen(true);
+  };
+
+  const addGalleryItem = () => {
+    setFormData({ ...formData, gallery: [...formData.gallery, ""] });
+  };
+
+  const removeGalleryItem = (index) => {
+    const newGallery = formData.gallery.filter((_, i) => i !== index);
+    setFormData({ ...formData, gallery: newGallery });
+  };
+
+  const handleGalleryChange = (index, value) => {
+    const newGallery = [...formData.gallery];
+    newGallery[index] = value;
+    setFormData({ ...formData, gallery: newGallery });
   };
 
   const closeModal = () => {
@@ -249,6 +293,7 @@ const AdminProduct = () => {
               </div>
 
               <div className="form-group">
+                <label>Đường Dẫn Hình Ảnh Chính (URL) *</label>
                 <label>Đường Dẫn Hình Ảnh (URL)</label>
                 <input
                   type="text"
@@ -256,6 +301,36 @@ const AdminProduct = () => {
                   value={formData.imageUrl}
                   onChange={handleChange}
                   placeholder="https://example.com/image.jpg"
+                  required
+                />
+              </div>
+
+              <div className="form-group gallery-group">
+                <div className="gallery-header">
+                  <label>Hình Ảnh Phụ (Gallery)</label>
+                  <button type="button" className="btn-add-gallery" onClick={addGalleryItem}>
+                    <FiPlus /> Thêm Ảnh Phụ
+                  </button>
+                </div>
+                {formData.gallery.map((imgUrl, index) => (
+                  <div key={index} className="gallery-item-input">
+                    <input
+                      type="text"
+                      placeholder="Nhập đường dẫn ảnh phụ..."
+                      value={imgUrl}
+                      onChange={(e) => handleGalleryChange(index, e.target.value)}
+                    />
+                    <button type="button" className="btn-remove-gallery" onClick={() => removeGalleryItem(index)}>
+                      <FiX />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Danh Mục (Category) *</label>
+                  <select
                 />
               </div>
 
@@ -268,6 +343,16 @@ const AdminProduct = () => {
                     value={formData.category_id}
                     onChange={handleChange}
                     required
+                  >
+                    <option value="" disabled>-- Chọn Danh Mục --</option>
+                    {categories.map((cat) => (
+                      <option key={cat._id} value={cat._id}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Thương Hiệu (Brand) *</label>
+                  <select
                   />
                 </div>
                 <div className="form-group">
@@ -278,6 +363,12 @@ const AdminProduct = () => {
                     value={formData.brand_id}
                     onChange={handleChange}
                     required
+                  >
+                    <option value="" disabled>-- Chọn Thương Hiệu --</option>
+                    {brands.map((brand) => (
+                      <option key={brand._id} value={brand._id}>{brand.name}</option>
+                    ))}
+                  </select>
                   />
                 </div>
               </div>

@@ -6,9 +6,26 @@ import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [productCount, setProductCount] = useState(0);
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalUsers: 0,
+    totalOrders: 0,
+    newOrders: 0,
+  });
   const [isLoading, setIsLoading] = useState(true);
 
+  // Helper để lấy token
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Bạn chưa đăng nhập!");
+      navigate("/login");
+      throw new Error("No token");
+    }
+    return { headers: { Authorization: `Bearer ${token}` } };
+  };
+  const [productCount, setProductCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     // 1. Bảo vệ trang Admin (Phân quyền UI)
     const role = localStorage.getItem("userRole");
@@ -24,6 +41,15 @@ const AdminDashboard = () => {
 
   const fetchDashboardStats = async () => {
     try {
+      const config = getAuthHeaders();
+      const { data } = await axios.get("http://localhost:5000/api/admin/dashboard", config);
+      setStats(data);
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu thống kê:", error);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+         alert("Bạn không có quyền truy cập thống kê!");
+         navigate("/");
+      }
       // Vì hiện tại chỉ có API sản phẩm, ta lấy số lượng sản phẩm làm thống kê
       const { data } = await axios.get("http://localhost:5000/api/products");
       setProductCount(data.length);
@@ -94,6 +120,7 @@ const AdminDashboard = () => {
             </div>
             <div className="stat-details">
               <h3>Tổng Sản Phẩm</h3>
+              <p className="stat-number">{isLoading ? "..." : stats.totalProducts}</p>
               <p className="stat-number">{isLoading ? "..." : productCount}</p>
             </div>
           </div>
@@ -104,6 +131,8 @@ const AdminDashboard = () => {
             </div>
             <div className="stat-details">
               <h3>Tổng Khách Hàng</h3>
+              <p className="stat-number">{isLoading ? "..." : stats.totalUsers}</p>
+              <span className="stat-trend positive">Cập nhật lúc này</span>
               <p className="stat-number">1,204</p>
               <span className="stat-trend positive">+12% so với tháng trước</span>
             </div>
@@ -114,6 +143,9 @@ const AdminDashboard = () => {
               <FiShoppingCart className="stat-icon" />
             </div>
             <div className="stat-details">
+              <h3>Tổng Đơn Hàng</h3>
+              <p className="stat-number">{isLoading ? "..." : stats.totalOrders}</p>
+              <span className="stat-trend neutral">{stats.newOrders} đơn chờ xử lý</span>
               <h3>Đơn Hàng Mới</h3>
               <p className="stat-number">45</p>
               <span className="stat-trend neutral">Chưa xử lý</span>
