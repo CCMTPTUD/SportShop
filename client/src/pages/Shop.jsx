@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import Header from "../components/Header/Header";
 import { FiSliders, FiHeart, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
@@ -14,13 +14,21 @@ const Shop = () => {
   const [brands, setBrands] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // States bộ lọc
+  // States bá»™ lá»c
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
 
-  // States phân trang
+  // States phÃ¢n trang
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
+  const [wishlistIds, setWishlistIds] = useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+      return new Set(stored.map((item) => item._id || item.id));
+    } catch {
+      return new Set();
+    }
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +43,7 @@ const Shop = () => {
         setCategories(catRes.data);
         setBrands(brandRes.data);
       } catch (error) {
-        console.error("Lỗi khi tải dữ liệu shop:", error);
+        console.error("Lá»—i khi táº£i dá»¯ liá»‡u shop:", error);
       } finally {
         setIsLoading(false);
       }
@@ -43,12 +51,12 @@ const Shop = () => {
     fetchData();
   }, []);
 
-  // Xử lý Checkbox bộ lọc
+  // Xá»­ lÃ½ Checkbox bá»™ lá»c
   const toggleCategory = (id) => {
     setSelectedCategories((prev) => 
       prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
     );
-    setCurrentPage(1); // Reset trang mỗi khi đổi bộ lọc
+    setCurrentPage(1); // Reset trang má»—i khi Ä‘á»•i bá»™ lá»c
   };
 
   const toggleBrand = (id) => {
@@ -58,14 +66,14 @@ const Shop = () => {
     setCurrentPage(1);
   };
 
-  // Tính toán lưới sản phẩm dựa trên bộ lọc
+  // TÃ­nh toÃ¡n lÆ°á»›i sáº£n pháº©m dá»±a trÃªn bá»™ lá»c
   const filteredProducts = products.filter(p => {
     const matchCat = selectedCategories.length === 0 || selectedCategories.includes(p.category_id?._id || p.category_id);
     const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(p.brand_id?._id || p.brand_id);
     return matchCat && matchBrand;
   });
 
-  // Tính toán phân trang
+  // TÃ­nh toÃ¡n phÃ¢n trang
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
@@ -74,23 +82,55 @@ const Shop = () => {
 
   const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
+  const toggleWishlist = (product, event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const id = product._id || product.id;
+    if (!id) return;
+
+    const stored = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+    const exists = stored.find((item) => (item._id || item.id) === id);
+
+    let updated;
+    if (exists) {
+      updated = stored.filter((item) => (item._id || item.id) !== id);
+    } else {
+      updated = [
+        ...stored,
+        {
+          _id: product._id || product.id,
+          name: product.name,
+          price: product.price,
+          imageUrl: product.imageUrl,
+        },
+      ];
+    }
+
+    localStorage.setItem("wishlistItems", JSON.stringify(updated));
+    setWishlistIds(new Set(updated.map((item) => item._id || item.id)));
+    window.dispatchEvent(new Event("wishlistUpdated"));
+  };
   return (
     <div className="shop-page">
-      {/* Tái sử dụng Header */}
+      {/* TÃ¡i sá»­ dá»¥ng Header */}
       <Header />
       
-      {/* Main body của trang Danh sách */}
+      {/* Main body cá»§a trang Danh sÃ¡ch */}
       <div className="shop-container">
         
-        {/* Cột trái: Bộ lọc */}
+        {/* Cá»™t trÃ¡i: Bá»™ lá»c */}
         <aside className="filter-sidebar">
           <div className="filter-header">
             <FiSliders className="filter-icon" />
-            <h3 className="filter-title">Bộ lọc</h3>
+            <h3 className="filter-title">Bá»™ lá»c</h3>
           </div>
           
           <div className="filter-group">
-            <h4 className="filter-group-title">Danh mục</h4>
+            <h4 className="filter-group-title">Danh má»¥c</h4>
             {categories.map((cat) => (
               <label className="filter-option" key={cat._id}>
                 <input 
@@ -101,7 +141,7 @@ const Shop = () => {
                 {cat.name}
               </label>
             ))}
-            {categories.length === 0 && <span style={{ fontSize: '0.85rem', color: '#888' }}>Không có danh mục</span>}
+            {categories.length === 0 && <span style={{ fontSize: '0.85rem', color: '#888' }}>KhÃ´ng cÃ³ danh má»¥c</span>}
           </div>
           
           <div className="filter-group">
@@ -116,27 +156,36 @@ const Shop = () => {
                 {brand.name}
               </label>
             ))}
-            {brands.length === 0 && <span style={{ fontSize: '0.85rem', color: '#888' }}>Không có brand</span>}
+            {brands.length === 0 && <span style={{ fontSize: '0.85rem', color: '#888' }}>KhÃ´ng cÃ³ brand</span>}
           </div>
         </aside>
 
-        {/* Cột phải: Product grid & Phân trang */}
+        {/* Cá»™t pháº£i: Product grid & PhÃ¢n trang */}
         <main className="product-area">
           
-          {/* Lưới sản phẩm */}
+          {/* LÆ°á»›i sáº£n pháº©m */}
           <div className="product-grid">
             {isLoading ? (
-              <p>Đang tải dữ liệu sản phẩm...</p>
+              <p>Äang táº£i dá»¯ liá»‡u sáº£n pháº©m...</p>
             ) : currentProducts.length > 0 ? (
               currentProducts.map((product) => (
                 <div className="product-card" key={product._id}>
                   <Link to={`/product/${product._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div className="product-image-container">
-                      {/* Icon Heart Góc phải */}
-                      <div className="heart-icon-wrapper">
-                        <FiHeart className="heart-outline heart-icon" />
-                      </div>
-                      {/* Ảnh sản phẩm */}
+                      {/* Icon Heart GÃ³c pháº£i */}
+                      <button
+                        type="button"
+                        className="heart-icon-wrapper"
+                        onClick={(e) => toggleWishlist(product, e)}
+                        aria-label="Yêu thích"
+                      >
+                        {wishlistIds.has(product._id || product.id) ? (
+                          <FaHeart className="heart-filled heart-icon" />
+                        ) : (
+                          <FiHeart className="heart-outline heart-icon" />
+                        )}
+                      </button>
+                      {/* áº¢nh sáº£n pháº©m */}
                       <img 
                         src={product.imageUrl || "https://placehold.co/300x300/e5e5e5/666?text=No+Image"} 
                         alt={product.name} 
@@ -152,7 +201,7 @@ const Shop = () => {
                         </span>
                       </div>
                       <h4 className="product-name">{product.name}</h4>
-                      <p className="product-price">{(product.price || 0).toLocaleString("vi-VN")} VNĐ</p>
+                      <p className="product-price">{(product.price || 0).toLocaleString("vi-VN")} VNÄ</p>
                     </div>
                   </Link>
 
@@ -160,22 +209,22 @@ const Shop = () => {
                     <button 
                       className="add-to-cart-btn" 
                       onClick={(e) => {
-                        e.preventDefault(); // Tránh bấm Link
+                        e.preventDefault(); // TrÃ¡nh báº¥m Link
                         addToCart(product, 1, product.sizes?.[0] || 'Default');
-                        alert("Đã thêm vào giỏ hàng thành công!");
+                        alert("ÄÃ£ thÃªm vÃ o giá» hÃ ng thÃ nh cÃ´ng!");
                       }}
                     >
-                      Thêm vào giỏ
+                      ThÃªm vÃ o giá»
                     </button>
                   </div>
                 </div>
               ))
             ) : (
-              <p>Chưa có sản phẩm nào phù hợp với bộ lọc.</p>
+              <p>ChÆ°a cÃ³ sáº£n pháº©m nÃ o phÃ¹ há»£p vá»›i bá»™ lá»c.</p>
             )}
           </div>
 
-          {/* Phân trang */}
+          {/* PhÃ¢n trang */}
           {totalPages > 1 && (
             <div className="pagination">
               <button className="page-nav-btn" onClick={goToPrevPage} disabled={currentPage === 1}>
@@ -205,3 +254,5 @@ const Shop = () => {
 };
 
 export default Shop;
+
+

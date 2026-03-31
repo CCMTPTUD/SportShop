@@ -20,29 +20,25 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Máº­t kháº©u nháº­p láº¡i khÃ´ng khá»›p!");
+      alert("Mật khẩu nhập lại không khớp!");
       return;
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        {
-          fullName: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-        },
-      );
+      const response = await axios.post("http://localhost:5000/api/auth/register", {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+      });
 
-      alert("ÄÄƒng kÃ½ thÃ nh cÃ´ng!");
-      // LÆ°u token vÃ  userRole vÃ o localStorage
+      alert("Đăng ký thành công!");
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userRole", response.data.role);
       localStorage.setItem("userEmail", formData.email);
       localStorage.setItem("userFullName", formData.fullName);
-      navigate("/"); // Chuyá»ƒn hÆ°á»›ng vá» trang chá»§
+      navigate("/");
     } catch (error) {
-      alert(error.response?.data?.message || "ÄÃ£ cÃ³ lá»—i xáº£y ra");
+      alert(error.response?.data?.message || "Đã có lỗi xảy ra");
     }
   };
 
@@ -55,8 +51,8 @@ const Register = () => {
 
       <div className="auth-form-section">
         <div className="auth-form-box">
-          <h2 className="auth-title">ÄÄƒng kÃ½ tÃ i khoáº£n</h2>
-          <p className="auth-subtitle">ÄÄƒng kÃ½ tÃ i khoáº£n má»›i Ä‘á»ƒ tiáº¿p tá»¥c</p>
+          <h2 className="auth-title">Đăng ký tài khoản</h2>
+          <p className="auth-subtitle">Đăng ký tài khoản mới để tiếp tục</p>
 
           <form onSubmit={handleSubmit}>
             <div className="input-group">
@@ -66,7 +62,7 @@ const Register = () => {
                 <input
                   type="text"
                   name="fullName"
-                  placeholder="Nguyá»…n VÄƒn A"
+                  placeholder="Nguyễn Văn A"
                   value={formData.fullName}
                   onChange={handleChange}
                   required
@@ -120,12 +116,12 @@ const Register = () => {
             </div>
 
             <button type="submit" className="btn-submit">
-              ÄÄƒng KÃ½
+              Đăng Ký
             </button>
           </form>
 
           <div className="auth-footer">
-            ÄÃ£ cÃ³ tÃ i khoáº£n? <Link to="/login">ÄÄƒng Nháº­p</Link>
+            Đã có tài khoản? <Link to="/login">Đăng Nhập</Link>
           </div>
         </div>
       </div>
@@ -134,4 +130,3 @@ const Register = () => {
 };
 
 export default Register;
-

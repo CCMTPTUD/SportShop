@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
@@ -6,7 +6,7 @@ import viteLogo from "./assets/vite.svg";
 
 import "./App.css";
 
-// Import các trang giao diện
+// Import cÃ¡c trang giao diá»‡n
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -16,22 +16,23 @@ import Checkout from "./pages/Checkout";
 import Cart from "./pages/Cart";
 import ProductReviews from "./pages/ProductReviews";
 import Profile from "./pages/Profile";
+import Wishlist from "./pages/Wishlist";
 
 import Home from "./pages/Home";
-import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
+import Shop from "./pages/Shop"; /* ThÃªm dÃ²ng import Shop */
 import AdminProduct from "./pages/AdminProduct";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
-    // BrowserRouter bọc toàn bộ ứng dụng để kích hoạt tính năng chuyển trang
+    // BrowserRouter bá»c toÃ n bá»™ á»©ng dá»¥ng Ä‘á»ƒ kÃ­ch hoáº¡t tÃ­nh nÄƒng chuyá»ƒn trang
     <BrowserRouter>
-      {/* Routes chứa các định nghĩa đường dẫn */}
+      {/* Routes chá»©a cÃ¡c Ä‘á»‹nh nghÄ©a Ä‘Æ°á»ng dáº«n */}
       <Routes>
-        {/* Định nghĩa từng Route cụ thể */}
+        {/* Äá»‹nh nghÄ©a tá»«ng Route cá»¥ thá»ƒ */}
         <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} /> {/* Thêm route mới */}
+        <Route path="/shop" element={<Shop />} /> {/* ThÃªm route má»›i */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -40,9 +41,10 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/product/:id/reviews" element={<ProductReviews />} />
         
-        {/* Khu vực được bảo vệ: Dành riêng cho Admin */}
+        {/* Khu vá»±c Ä‘Æ°á»£c báº£o vá»‡: DÃ nh riÃªng cho Admin */}
         <Route path="/admin" element={
           <AdminRoute>
             <AdminDashboard />
@@ -53,10 +55,11 @@ function App() {
             <AdminProduct />
           </AdminRoute>
         } />
-        <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />
+        <Route path="*" element={<h1>404 - Trang khÃ´ng tá»“n táº¡i</h1>} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
+
