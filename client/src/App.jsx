@@ -18,6 +18,8 @@ import ProductReviews from "./pages/ProductReviews";
 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
+import AdminProduct from "./pages/AdminProduct";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id/reviews" element={<ProductReviews />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/products" element={<AdminProduct />} />
         <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />
       </Routes>
     </BrowserRouter>

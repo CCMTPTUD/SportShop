@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./src/config/db");
 const authRoutes = require("./src/routes/authRoutes");
+const productRoutes = require("./src/routes/productRoutes");
 
 // Khởi tạo app Express
 const app = express();
@@ -16,6 +17,7 @@ connectDB();
 app.use(cors()); // Cho phép React gọi API
 app.use(express.json()); // Giúp server đọc được dữ liệu JSON từ request body
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 // Route kiểm tra cơ bản
 app.get("/", (req, res) => {

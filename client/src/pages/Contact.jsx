@@ -147,8 +147,8 @@ const Contact = () => {
                 className="contact-value"
                 style={{ fontSize: "1.1rem", color: "#000", fontWeight: 500 }}
               >
-                trump@gmailgmail.com
-              </span>
+                trump@gmail.com
+              </span> 
             </div>
           </div>
 
