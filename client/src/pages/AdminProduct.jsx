@@ -24,6 +24,9 @@ const AdminProduct = () => {
     stock: "",
     category_id: "", 
     brand_id: "", 
+    stock: "",
+    category_id: "60d21b4667d0d8992e610c85", // Placeholder ObjectId
+    brand_id: "60d21b4667d0d8992e610c85", // Placeholder ObjectId
   });
 
   const API_URL = "http://localhost:5000/api/products";
@@ -50,6 +53,8 @@ const AdminProduct = () => {
       console.error("Lỗi khi tải Categories/Brands", error);
     }
   };
+
+  }, [navigate]);
 
   const fetchProducts = async () => {
     setIsLoading(true);
@@ -90,6 +95,9 @@ const AdminProduct = () => {
         stock: product.stock,
         category_id: product.category_id?._id || product.category_id || "",
         brand_id: product.brand_id?._id || product.brand_id || "",
+        stock: product.stock,
+        category_id: product.category_id?._id || product.category_id || "60d21b4667d0d8992e610c85",
+        brand_id: product.brand_id?._id || product.brand_id || "60d21b4667d0d8992e610c85",
       });
     } else {
       setFormData({
@@ -102,6 +110,9 @@ const AdminProduct = () => {
         stock: "",
         category_id: categories.length > 0 ? categories[0]._id : "",
         brand_id: brands.length > 0 ? brands[0]._id : "",
+        stock: "",
+        category_id: "60d21b4667d0d8992e610c85",
+        brand_id: "60d21b4667d0d8992e610c85",
       });
     }
     setIsModalOpen(true);
@@ -283,6 +294,7 @@ const AdminProduct = () => {
 
               <div className="form-group">
                 <label>Đường Dẫn Hình Ảnh Chính (URL) *</label>
+                <label>Đường Dẫn Hình Ảnh (URL)</label>
                 <input
                   type="text"
                   name="imageUrl"
@@ -319,6 +331,14 @@ const AdminProduct = () => {
                 <div className="form-group">
                   <label>Danh Mục (Category) *</label>
                   <select
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Category ID *</label>
+                  <input
+                    type="text"
                     name="category_id"
                     value={formData.category_id}
                     onChange={handleChange}
@@ -333,6 +353,12 @@ const AdminProduct = () => {
                 <div className="form-group">
                   <label>Thương Hiệu (Brand) *</label>
                   <select
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Brand ID *</label>
+                  <input
+                    type="text"
                     name="brand_id"
                     value={formData.brand_id}
                     onChange={handleChange}
@@ -343,6 +369,7 @@ const AdminProduct = () => {
                       <option key={brand._id} value={brand._id}>{brand.name}</option>
                     ))}
                   </select>
+                  />
                 </div>
               </div>
 
