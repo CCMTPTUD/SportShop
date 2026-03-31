@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
+
 import "./App.css";
 
 // Import các trang giao diện
@@ -16,29 +16,7 @@ import Checkout from "./pages/Checkout";
 import Cart from "./pages/Cart";
 import ProductReviews from "./pages/ProductReviews";
 
-// Component Trang chủ (tạm thời)
-const Home = () => {
-  return (
-    <div
-      style={{
-        textAlign: "center",
-        marginTop: "50px",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1>Chào mừng đến với Sportswear Shop 🏆</h1>
-      <p>Trang chủ đang được xây dựng...</p>
-      <p>
-        <a href="/login" style={{ marginRight: "15px", color: "#0d5dd6" }}>
-          Đến trang Đăng Nhập
-        </a>
-        <a href="/register" style={{ color: "#0d5dd6" }}>
-          Đến trang Đăng Ký
-        </a>
-      </p>
-    </div>
-  );
-};
+import Home from "./pages/Home";
 
 function App() {
   return (
