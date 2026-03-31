@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
@@ -16,6 +16,7 @@ import Checkout from "./pages/Checkout";
 import Cart from "./pages/Cart";
 import ProductReviews from "./pages/ProductReviews";
 import Profile from "./pages/Profile";
+import Wishlist from "./pages/Wishlist";
 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
@@ -40,19 +41,26 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/product/:id/reviews" element={<ProductReviews />} />
-        
+
         {/* Khu vực được bảo vệ: Dành riêng cho Admin */}
-        <Route path="/admin" element={
-          <AdminRoute>
-            <AdminDashboard />
-          </AdminRoute>
-        } />
-        <Route path="/admin/products" element={
-          <AdminRoute>
-            <AdminProduct />
-          </AdminRoute>
-        } />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <AdminRoute>
+              <AdminProduct />
+            </AdminRoute>
+          }
+        />
         <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />
       </Routes>
     </BrowserRouter>

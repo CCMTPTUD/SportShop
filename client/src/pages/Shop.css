@@ -1,20 +1,20 @@
-/* src/pages/Shop.css */
+﻿/* src/pages/Shop.css */
 
 .shop-page {
   font-family: 'Inter', sans-serif; /* fallback */
-  background-color: #f4f4f4; /* Nền xám nhạt cho toàn bộ nội dung dưới header */
+  background-color: #f4f4f4; /* Ná»n xÃ¡m nháº¡t cho toÃ n bá»™ ná»™i dung dÆ°á»›i header */
   min-height: 100vh;
 }
 
-/* Đổi màu link "Shop" nổi bật nếu Header chưa tự làm điều đó */
+/* Äá»•i mÃ u link "Shop" ná»•i báº­t náº¿u Header chÆ°a tá»± lÃ m Ä‘iá»u Ä‘Ã³ */
 .shop-page .nav-item[href="/shop"] {
   color: #0ea5e9;
 }
 .shop-page .nav-item.home {
-  color: #222; /* Khôi phục Home về màu gốc nếu nó đang xanh */
+  color: #222; /* KhÃ´i phá»¥c Home vá» mÃ u gá»‘c náº¿u nÃ³ Ä‘ang xanh */
 }
 
-/* Container chính chia 2 cột */
+/* Container chÃ­nh chia 2 cá»™t */
 .shop-container {
   display: flex;
   max-width: 1200px;
@@ -23,7 +23,7 @@
   gap: 40px;
 }
 
-/* --- SIDEBAR BỘ LỌC --- */
+/* --- SIDEBAR Bá»˜ Lá»ŒC --- */
 .filter-sidebar {
   width: 220px;
   flex-shrink: 0;
@@ -82,7 +82,7 @@
 }
 
 
-/* --- KHU VỰC SẢN PHẨM --- */
+/* --- KHU Vá»°C Sáº¢N PHáº¨M --- */
 .product-area {
   flex-grow: 1;
   display: flex;
@@ -94,19 +94,19 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  /* Bỏ margin-bottom, ta sẽ uỷ quyền đẩy pagination xuống bằng margin-top: auto bên dưới */
+  /* Bá» margin-bottom, ta sáº½ uá»· quyá»n Ä‘áº©y pagination xuá»‘ng báº±ng margin-top: auto bÃªn dÆ°á»›i */
 }
 
-/* Card sản phẩm */
+/* Card sáº£n pháº©m */
 .product-card {
-  background-color: #e5e5e5; /* Layout figma dùng màu hộp xám nhạt */
+  background-color: #e5e5e5; /* Layout figma dÃ¹ng mÃ u há»™p xÃ¡m nháº¡t */
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Bóng đổ rất nhẹ */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* BÃ³ng Ä‘á»• ráº¥t nháº¹ */
   display: flex;
   flex-direction: column;
   transition: transform 0.2sease, box-shadow 0.2s ease;
-  border: 1px solid #dcdcdc; /* Đường viền mỏng nếu có */
+  border: 1px solid #dcdcdc; /* ÄÆ°á»ng viá»n má»ng náº¿u cÃ³ */
   padding-bottom: 20px;
 }
 
@@ -117,7 +117,7 @@
 
 .product-image-container {
   width: 100%;
-  aspect-ratio: 1 / 1.1; /* Khung ảnh hình hơi đứng một chút */
+  aspect-ratio: 1 / 1.1; /* Khung áº£nh hÃ¬nh hÆ¡i Ä‘á»©ng má»™t chÃºt */
   position: relative;
   display: flex;
   justify-content: center;
@@ -125,14 +125,14 @@
   background-color: transparent; 
 }
 
-/* Ảnh giày */
+/* áº¢nh giÃ y */
 .product-img {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
 }
 
-/* Icon Trái Tim Góc trên Card */
+/* Icon TrÃ¡i Tim GÃ³c trÃªn Card */
 .heart-icon-wrapper {
   position: absolute;
   top: 15px;
@@ -140,8 +140,10 @@
   cursor: pointer;
   z-index: 2;
   background-color: white; 
-  /* Hoặc figma có icon trong suốt. Nhìn ảnh Figma: icon trắng/đỏ nền xám */
-  border-radius: 50%; /* Tròn trắng */
+  border: none;
+  padding: 0;
+  /* Hoáº·c figma cÃ³ icon trong suá»‘t. NhÃ¬n áº£nh Figma: icon tráº¯ng/Ä‘á» ná»n xÃ¡m */
+  border-radius: 50%; /* TrÃ²n tráº¯ng */
   width: 32px;
   height: 32px;
   display: flex;
@@ -155,19 +157,19 @@
 }
 
 .heart-filled {
-  color: #ff3b3b; /* Trái tim đỏ */
+  color: #ff3b3b; /* TrÃ¡i tim Ä‘á» */
 }
 
 .heart-outline {
   color: #111;
 }
 
-/* Thông tin text sản phẩm */
+/* ThÃ´ng tin text sáº£n pháº©m */
 .product-info {
   padding: 0 15px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Chiếm hết khoảng trống trên card để nút luôn được bám dưới đáy */
+  flex-grow: 1; /* Chiáº¿m háº¿t khoáº£ng trá»‘ng trÃªn card Ä‘á»ƒ nÃºt luÃ´n Ä‘Æ°á»£c bÃ¡m dÆ°á»›i Ä‘Ã¡y */
   gap: 4px;
 }
 
@@ -214,12 +216,12 @@
   font-size: 0.95rem;
   font-weight: 700;
   color: #111;
-  margin-bottom: 15px; /* Đẩy giãn một chút với nút thêm vào giỏ */
+  margin-bottom: 15px; /* Äáº©y giÃ£n má»™t chÃºt vá»›i nÃºt thÃªm vÃ o giá» */
 }
 
-/* Nút thêm vào giỏ hàng */
+/* NÃºt thÃªm vÃ o giá» hÃ ng */
 .add-to-cart-btn {
-  margin-top: auto; /* Tự động đẩy nút xuống đáy của hộp thoại product-info */
+  margin-top: auto; /* Tá»± Ä‘á»™ng Ä‘áº©y nÃºt xuá»‘ng Ä‘Ã¡y cá»§a há»™p thoáº¡i product-info */
   width: 100%;
   padding: 10px 0;
   background-color: #111;
@@ -236,17 +238,17 @@
   background-color: #333;
 }
 
-/* --- PHÂN TRANG (Pagination) --- */
+/* --- PHÃ‚N TRANG (Pagination) --- */
 .pagination {
-  margin-top: auto; /* Đẩy thanh bộ chia xuống tít dưới cùng nếu còn trống khoảng trống flex */
+  margin-top: auto; /* Äáº©y thanh bá»™ chia xuá»‘ng tÃ­t dÆ°á»›i cÃ¹ng náº¿u cÃ²n trá»‘ng khoáº£ng trá»‘ng flex */
   padding-top: 40px; 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px; /* Giảm gap để sát nhau hơn giống figma */
+  gap: 8px; /* Giáº£m gap Ä‘á»ƒ sÃ¡t nhau hÆ¡n giá»‘ng figma */
 }
 
-/* Nút <> tròn */
+/* NÃºt <> trÃ²n */
 .page-nav-btn {
   width: 38px;
   height: 38px;
@@ -270,7 +272,7 @@
   border-color: #999;
 }
 
-/* Nút số vuông */
+/* NÃºt sá»‘ vuÃ´ng */
 .page-num-btn {
   width: 34px;
   height: 34px;
@@ -291,13 +293,13 @@
   background-color: #ededed;
 }
 
-/* Nếu đang ở trang active thì viền đỏ */
+/* Náº¿u Ä‘ang á»Ÿ trang active thÃ¬ viá»n Ä‘á» */
 .page-num-btn.active {
   border: 1px solid #ff3b3b;
-  color: #111; /* Text vẫn đen/chữ đỏ trong figma? Ảnh figma trang 1 viền đỏ. Chữ số đen. */
+  color: #111; /* Text váº«n Ä‘en/chá»¯ Ä‘á» trong figma? áº¢nh figma trang 1 viá»n Ä‘á». Chá»¯ sá»‘ Ä‘en. */
 }
 
-/* --- Responsive Layout Cơ Bản --- */
+/* --- Responsive Layout CÆ¡ Báº£n --- */
 @media (max-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -322,3 +324,4 @@
     grid-template-columns: 1fr;
   }
 }
+
