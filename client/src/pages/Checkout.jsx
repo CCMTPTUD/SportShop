@@ -2,69 +2,29 @@ import React, { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
+import { useCart } from "../context/CartContext";
 import "./Checkout.css";
 
 const Checkout = () => {
   const navigate = useNavigate();
-
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Bóng đá Size 5",
-      price: 17500,
-      quantity: 2,
-      image: "https://cdn-icons-png.flaticon.com/512/53/53283.png",
-    },
-    {
-      id: 2,
-      name: "Bóng chuyền Da",
-      price: 40000,
-      quantity: 1,
-      image: "https://cdn-icons-png.flaticon.com/512/3255/3255393.png",
-    },
-    {
-      id: 3,
-      name: "Vợt cầu lông Pro",
-      price: 250000,
-      quantity: 1,
-      image: "https://cdn-icons-png.flaticon.com/512/3255/3255375.png",
-    },
-    {
-      id: 4,
-      name: "Áo thun thể thao nam",
-      price: 79000,
-      quantity: 1,
-      image: "https://cdn-icons-png.flaticon.com/512/2806/2806140.png",
-    },
-  ]);
+  const { cart, updateQuantity, getCartTotal, clearCart } = useCart();
 
   const discountVoucher = 22500;
   const shippingFee = 30000;
 
   const formatCurrency = (amount) => amount.toLocaleString("vi-VN") + " đ";
 
-  const handleIncrease = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
-      ),
-    );
+  const handleIncrease = (id, size, qty) => {
+    updateQuantity(id, size, qty + 1);
   };
 
-  const handleDecrease = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item,
-      ),
-    );
+  const handleDecrease = (id, size, qty) => {
+    if (qty > 1) {
+      updateQuantity(id, size, qty - 1);
+    }
   };
 
-  const subTotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0,
-  );
+  const subTotal = getCartTotal();
   const finalTotal = subTotal - discountVoucher + shippingFee;
 
   return (
@@ -82,32 +42,39 @@ const Checkout = () => {
 
         <div className="checkout-content">
           <div className="checkout-items">
-            {cartItems.map((item) => (
-              <div className="checkout-item" key={item.id}>
-                <img src={item.image} alt={item.name} className="item-image" />
-                <div className="item-info">{item.name}</div>
+            {cart.length === 0 ? (
+              <p style={{textAlign: "center", fontStyle: "italic", marginTop: "20px", color: "#888"}}>Không có sản phẩm nào để thanh toán.</p>
+            ) : (
+              cart.map((item) => (
+                <div className="checkout-item" key={`${item._id}-${item.size}`}>
+                  <img src={item.imageUrl || "https://placehold.co/300x300/e5e5e5/666?text=No+Image"} alt={item.name} className="item-image" />
+                  <div className="item-info">
+                    {item.name}
+                    <div style={{fontSize: "0.85rem", color: "#666", marginTop: "4px"}}>Size: {item.size}</div>
+                  </div>
 
-                <div className="item-quantity">
-                  <button
-                    className="qty-btn"
-                    onClick={() => handleDecrease(item.id)}
-                  >
-                    -
-                  </button>
-                  <span className="qty-number">{item.quantity}</span>
-                  <button
-                    className="qty-btn"
-                    onClick={() => handleIncrease(item.id)}
-                  >
-                    +
-                  </button>
-                </div>
+                  <div className="item-quantity">
+                    <button
+                      className="qty-btn"
+                      onClick={() => handleDecrease(item._id, item.size, item.qty)}
+                    >
+                      -
+                    </button>
+                    <span className="qty-number">{item.qty}</span>
+                    <button
+                      className="qty-btn"
+                      onClick={() => handleIncrease(item._id, item.size, item.qty)}
+                    >
+                      +
+                    </button>
+                  </div>
 
-                <div className="item-price">
-                  {formatCurrency(item.price * item.quantity)}
+                  <div className="item-price" style={{fontWeight: '600', color: '#000'}}>
+                    {formatCurrency(item.price * item.qty)}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           <div className="checkout-summary">
@@ -139,7 +106,13 @@ const Checkout = () => {
 
             <button
               className="btn-order"
-              onClick={() => alert("Chức năng đặt hàng đang được xây dựng!")}
+              onClick={() => {
+                if(cart.length === 0) return alert("Giỏ hàng đang trống!");
+                alert("Đặt hàng thành công! Cửa hàng sẽ liên hệ bạn sớm.");
+                clearCart();
+                navigate("/");
+              }}
+              disabled={cart.length === 0}
             >
               HOÀN TẤT ĐẶT HÀNG
             </button>
