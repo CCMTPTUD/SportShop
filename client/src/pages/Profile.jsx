@@ -1,16 +1,20 @@
-﻿import React, { useState } from "react";
-import { FiBell, FiBox, FiHeart, FiPackage, FiUser } from "react-icons/fi";
+﻿import React, { useEffect, useState } from "react";
+import { FiBell, FiCheckCircle, FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
+import { useCart } from "../context/CartContext";
 import "./Profile.css";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { getCartCount } = useCart();
   const [profileInfo, setProfileInfo] = useState(() => ({
     fullName: localStorage.getItem("userFullName") || "",
     email: localStorage.getItem("userEmail") || "",
     phone: localStorage.getItem("userPhone") || "",
   }));
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const [paidCount, setPaidCount] = useState(0);
 
   const [editForm, setEditForm] = useState(profileInfo);
   const [notificationSettings, setNotificationSettings] = useState({
@@ -53,6 +57,57 @@ const Profile = () => {
     navigate("/login");
   };
 
+  useEffect(() => {
+    const readWishlistCount = () => {
+      try {
+        const items = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+        setWishlistCount(items.length);
+      } catch {
+        setWishlistCount(0);
+      }
+    };
+
+    const readPaidCount = () => {
+      try {
+        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        let total = 0;
+        orders.forEach((order) => {
+          const status = (order.status || "").toLowerCase();
+          const isPaid =
+            status === "paid" ||
+            status === "đã thanh toán" ||
+            status === "da thanh toan";
+          if (!isPaid) return;
+          const items = order.items || order.orderItems || [];
+          items.forEach((item) => {
+            const qty = Number(item.qty ?? item.quantity ?? 1);
+            total += Number.isNaN(qty) ? 1 : qty;
+          });
+        });
+
+        if (orders.length === 0) {
+          const paidItems = JSON.parse(localStorage.getItem("paidItems") || "[]");
+          total = Array.isArray(paidItems) ? paidItems.length : 0;
+        }
+
+        setPaidCount(total);
+      } catch {
+        setPaidCount(0);
+      }
+    };
+
+    readWishlistCount();
+    readPaidCount();
+    window.addEventListener("wishlistUpdated", readWishlistCount);
+    window.addEventListener("storage", readWishlistCount);
+    window.addEventListener("storage", readPaidCount);
+    return () => {
+      window.removeEventListener("wishlistUpdated", readWishlistCount);
+      window.removeEventListener("storage", readWishlistCount);
+      window.removeEventListener("storage", readPaidCount);
+    };
+  }, []);
+
   return (
     <div className="profile-page">
       <Header />
@@ -80,23 +135,23 @@ const Profile = () => {
         <section className="profile-stats-grid">
           <div className="profile-stat-item">
             <div className="profile-stat-icon blue">
-              <FiBox />
+              <FiCheckCircle />
             </div>
-            <p>TỔNG ĐƠN HÀNG : 25</p>
+            <p>TỔNG ĐƠN HÀNG : {paidCount}</p>
           </div>
 
           <div className="profile-stat-item">
             <div className="profile-stat-icon orange">
-              <FiPackage />
+              <FiShoppingCart />
             </div>
-            <p>ĐANG XỬ LÝ : 2</p>
+            <p>GIỎ HÀNG : {getCartCount()}</p>
           </div>
 
           <div className="profile-stat-item">
             <div className="profile-stat-icon red">
               <FiHeart />
             </div>
-            <p>YÊU THÍCH : 5</p>
+            <p>YÊU THÍCH : {wishlistCount}</p>
           </div>
         </section>
 
@@ -208,5 +263,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-
