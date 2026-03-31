@@ -1,26 +1,38 @@
-import React from "react";
-import {
-  FiMenu,
-  FiSearch,
-  FiShoppingCart,
-  FiHeart,
-  FiUser,
-} from "react-icons/fi";
-import { Link } from "react-router-dom"; // Import Link từ react-router-dom
+﻿import React, { useEffect, useState } from "react";
+import { FiMenu, FiSearch, FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import "./Header.css"; // Import file CSS
+import "./Header.css";
 
 const Header = () => {
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+  const [wishlistCount, setWishlistCount] = useState(0);
+
+  useEffect(() => {
+    const readWishlistCount = () => {
+      try {
+        const items = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+        setWishlistCount(items.length);
+      } catch {
+        setWishlistCount(0);
+      }
+    };
+
+    readWishlistCount();
+    window.addEventListener("wishlistUpdated", readWishlistCount);
+    window.addEventListener("storage", readWishlistCount);
+    return () => {
+      window.removeEventListener("wishlistUpdated", readWishlistCount);
+      window.removeEventListener("storage", readWishlistCount);
+    };
+  }, []);
+
   return (
     <header className="header-container">
-      {/* Top Bar */}
       <div className="top-bar">
-        {/* Bật mí nhỏ: Hình như chữ SPORTSTORE đang bị gõ nhầm thành SPROTSTORE nè 😉 */}
         <div className="brand-name">SPORTSTORE</div>
 
-        {/* Thanh tìm kiếm */}
         <div className="search-bar-container">
           <FiMenu className="hamburger-icon" />
           <input
@@ -31,9 +43,7 @@ const Header = () => {
           <FiSearch className="search-icon" />
         </div>
 
-        {/* Nhóm Icons */}
         <div className="icon-group">
-          {/* Thay div bằng Link để chuyển hướng mượt mà không reload trang */}
           <Link
             to="/cart"
             className="icon-item cart"
@@ -43,9 +53,16 @@ const Header = () => {
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
 
-          <div className="icon-item heart">
+          <Link
+            to="/wishlist"
+            className="icon-item heart"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <FiHeart />
-          </div>
+            {wishlistCount > 0 && (
+              <span className="cart-badge wishlist-badge">{wishlistCount}</span>
+            )}
+          </Link>
 
           <Link
             to="/profile"
@@ -57,10 +74,8 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Nav Bar */}
       <nav className="nav-bar">
         <div className="nav-links">
-          {/* Lời khuyên: Về sau bạn nên thay thẻ <a> bằng thẻ <Link to="..."> để trang web chạy nhanh như một app thực thụ nhé */}
           <a href="/" className="nav-item home">
             Home
           </a>
@@ -86,3 +101,4 @@ const Header = () => {
 };
 
 export default Header;
+
