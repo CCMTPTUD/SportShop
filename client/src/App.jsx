@@ -17,6 +17,7 @@ import Cart from "./pages/Cart";
 import ProductReviews from "./pages/ProductReviews";
 
 import Home from "./pages/Home";
+import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         {/* Định nghĩa từng Route cụ thể */}
         <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} /> {/* Thêm route mới */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
