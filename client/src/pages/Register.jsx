@@ -35,8 +35,9 @@ const Register = () => {
       );
 
       alert("Đăng ký thành công!");
-      // Lưu token vào localStorage
+      // Lưu token và userRole vào localStorage
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userRole", response.data.role);
       navigate("/"); // Chuyển hướng về trang chủ
     } catch (error) {
       alert(error.response?.data?.message || "Đã có lỗi xảy ra");

@@ -21,8 +21,9 @@ const Login = () => {
       );
 
       alert("Đăng nhập thành công!");
-      // Lưu token vào localStorage để dùng cho các API sau này
+      // Lưu token và thông tin người dùng vào localStorage
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userRole", response.data.role);
       navigate("/"); // Chuyển hướng về trang chủ
     } catch (error) {
       alert(error.response?.data?.message || "Sai email hoặc mật khẩu!");
