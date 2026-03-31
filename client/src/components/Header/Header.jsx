@@ -48,7 +48,7 @@ const Header = () => {
           </div>
 
           <Link
-            to="/login"
+            to="/profile"
             className="icon-item user"
             style={{ textDecoration: "none", color: "inherit" }}
           >
