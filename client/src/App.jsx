@@ -17,8 +17,6 @@ import Cart from "./pages/Cart";
 import ProductReviews from "./pages/ProductReviews";
 
 import Home from "./pages/Home";
-import AdminProduct from "./pages/AdminProduct";
-import AdminDashboard from "./pages/AdminDashboard";
 import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
 import AdminProduct from "./pages/AdminProduct";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -53,8 +51,6 @@ function App() {
             <AdminProduct />
           </AdminRoute>
         } />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/products" element={<AdminProduct />} />
         <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />
       </Routes>
     </BrowserRouter>

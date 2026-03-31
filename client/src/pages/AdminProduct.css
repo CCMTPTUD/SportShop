@@ -288,7 +288,6 @@
 }
 
 .admin-form input, .admin-form textarea, .admin-form select {
-.admin-form input, .admin-form textarea {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
@@ -302,7 +301,6 @@
 }
 
 .admin-form input:focus, .admin-form textarea:focus, .admin-form select:focus {
-.admin-form input:focus, .admin-form textarea:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-bg);

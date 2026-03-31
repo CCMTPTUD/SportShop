@@ -30,7 +30,6 @@ const Login = () => {
       } else {
         navigate("/"); // Chuyển hướng về trang chủ
       }
-      navigate("/"); // Chuyển hướng về trang chủ
     } catch (error) {
       alert(error.response?.data?.message || "Sai email hoặc mật khẩu!");
     }
