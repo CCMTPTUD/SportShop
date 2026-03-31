@@ -7,9 +7,12 @@ import {
   FiUser,
 } from "react-icons/fi";
 import { Link } from "react-router-dom"; // Import Link từ react-router-dom
+import { useCart } from "../../context/CartContext";
 import "./Header.css"; // Import file CSS
 
 const Header = () => {
+  const { getCartCount } = useCart();
+  const cartCount = getCartCount();
   return (
     <header className="header-container">
       {/* Top Bar */}
@@ -37,7 +40,7 @@ const Header = () => {
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <FiShoppingCart />
-            <span className="cart-badge">3</span> {/* Số lượng giỏ hàng */}
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
 
           <div className="icon-item heart">

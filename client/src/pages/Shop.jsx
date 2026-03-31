@@ -4,9 +4,11 @@ import { FiSliders, FiHeart, FiChevronLeft, FiChevronRight } from "react-icons/f
 import { FaHeart, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useCart } from "../context/CartContext";
 import "./Shop.css";
 
 const Shop = () => {
+  const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -155,8 +157,16 @@ const Shop = () => {
                   </Link>
 
                   <div className="product-info" style={{ paddingTop: 0 }}>
-                    {/* Nút thêm vào giỏ hàng */}
-                    <button className="add-to-cart-btn">Thêm vào giỏ</button>
+                    <button 
+                      className="add-to-cart-btn" 
+                      onClick={(e) => {
+                        e.preventDefault(); // Tránh bấm Link
+                        addToCart(product, 1, product.sizes?.[0] || 'Default');
+                        alert("Đã thêm vào giỏ hàng thành công!");
+                      }}
+                    >
+                      Thêm vào giỏ
+                    </button>
                   </div>
                 </div>
               ))
