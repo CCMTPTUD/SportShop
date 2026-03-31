@@ -32,6 +32,7 @@
 .filter-header {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -57,17 +58,20 @@
   font-size: 0.95rem;
   font-weight: 700;
   color: #111;
+  text-align: left;
 }
 
 .filter-option {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   margin-bottom: 12px;
   font-size: 0.95rem;
   font-weight: 500;
   color: #333;
   cursor: pointer;
+  text-align: left;
 }
 
 .filter-option input[type="checkbox"] {
@@ -257,8 +261,13 @@
   color: #111;
   transition: all 0.2s;
 }
-.page-nav-btn:hover {
+.page-nav-btn:hover:not(:disabled) {
   background-color: #ededed;
+}
+.page-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: #999;
 }
 
 /* Nút số vuông */

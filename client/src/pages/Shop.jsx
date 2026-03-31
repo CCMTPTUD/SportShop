@@ -1,67 +1,77 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header/Header";
 import { FiSliders, FiHeart, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import "./Shop.css";
 
-// Dữ liệu mẫu thay vì gọi API
-const MOCK_PRODUCTS = [
-  { 
-    id: 1, 
-    brand: "Nike", 
-    name: "Nike air force 1 panda", 
-    price: "999.000", 
-    rating: "5.0", 
-    liked: true, 
-    // Dùng placeholder image giả lập ảnh giày tách nền
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=Nike+Air" 
-  },
-  { 
-    id: 2, 
-    brand: "Adidas", 
-    name: "Adidas Forum 84", 
-    price: "888.000", 
-    rating: "4.9", 
-    liked: false, 
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=Adidas" 
-  },
-  { 
-    id: 3, 
-    brand: "NewBalance", 
-    name: "NewBalance 550", 
-    price: "3.999.000", 
-    rating: "5.0", 
-    liked: false, 
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=NB+550" 
-  },
-  { 
-    id: 4, 
-    brand: "Onitsuka Tiger", 
-    name: "Mexico 66 yellow", 
-    price: "4.999.000", 
-    rating: "4.9", 
-    liked: false, 
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=Mexico+66" 
-  },
-  { 
-    id: 5, brand: "Nike", name: "Nike Dunk Low Retro", price: "2.199.000", rating: "4.8", liked: true, 
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=Dunk+Low" 
-  },
-  { 
-    id: 6, brand: "Puma", name: "Puma Suede Classic", price: "2.500.000", rating: "4.7", liked: false, 
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=Puma+Suede" 
-  },
-  { 
-    id: 7, brand: "Adidas", name: "Adidas Stan Smith", price: "1.890.000", rating: "4.9", liked: false, 
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=Stan+Smith" 
-  },
-  { 
-    id: 8, brand: "NewBalance", name: "NewBalance 990v5", price: "5.500.000", rating: "5.0", liked: true, 
-    imgUrl: "https://placehold.co/300x300/e5e5e5/666?text=NB+990v5" 
-  },
-];
-
 const Shop = () => {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // States bộ lọc
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
+
+  // States phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const [prodRes, catRes, brandRes] = await Promise.all([
+          axios.get("http://localhost:5000/api/products"),
+          axios.get("http://localhost:5000/api/categories"),
+          axios.get("http://localhost:5000/api/brands")
+        ]);
+        setProducts(prodRes.data);
+        setCategories(catRes.data);
+        setBrands(brandRes.data);
+      } catch (error) {
+        console.error("Lỗi khi tải dữ liệu shop:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Xử lý Checkbox bộ lọc
+  const toggleCategory = (id) => {
+    setSelectedCategories((prev) => 
+      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    );
+    setCurrentPage(1); // Reset trang mỗi khi đổi bộ lọc
+  };
+
+  const toggleBrand = (id) => {
+    setSelectedBrands((prev) => 
+      prev.includes(id) ? prev.filter(b => b !== id) : [...prev, id]
+    );
+    setCurrentPage(1);
+  };
+
+  // Tính toán lưới sản phẩm dựa trên bộ lọc
+  const filteredProducts = products.filter(p => {
+    const matchCat = selectedCategories.length === 0 || selectedCategories.includes(p.category_id?._id || p.category_id);
+    const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(p.brand_id?._id || p.brand_id);
+    return matchCat && matchBrand;
+  });
+
+  // Tính toán phân trang
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const currentProducts = filteredProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
+
+  const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   return (
     <div className="shop-page">
       {/* Tái sử dụng Header */}
@@ -79,19 +89,32 @@ const Shop = () => {
           
           <div className="filter-group">
             <h4 className="filter-group-title">Danh mục</h4>
-            <label className="filter-option"><input type="checkbox" /> Giày</label>
-            <label className="filter-option"><input type="checkbox" /> Quần</label>
-            <label className="filter-option"><input type="checkbox" /> Phụ kiện</label>
-            <label className="filter-option"><input type="checkbox" /> Áo</label>
+            {categories.map((cat) => (
+              <label className="filter-option" key={cat._id}>
+                <input 
+                  type="checkbox" 
+                  checked={selectedCategories.includes(cat._id)} 
+                  onChange={() => toggleCategory(cat._id)} 
+                /> 
+                {cat.name}
+              </label>
+            ))}
+            {categories.length === 0 && <span style={{ fontSize: '0.85rem', color: '#888' }}>Không có danh mục</span>}
           </div>
           
           <div className="filter-group">
             <h4 className="filter-group-title">Brands</h4>
-            <label className="filter-option"><input type="checkbox" /> Nike</label>
-            <label className="filter-option"><input type="checkbox" /> Adidas</label>
-            <label className="filter-option"><input type="checkbox" /> Onitsuka Tiger</label>
-            <label className="filter-option"><input type="checkbox" /> NewBalance</label>
-            <label className="filter-option"><input type="checkbox" /> Puma</label>
+            {brands.map((brand) => (
+              <label className="filter-option" key={brand._id}>
+                <input 
+                  type="checkbox" 
+                  checked={selectedBrands.includes(brand._id)} 
+                  onChange={() => toggleBrand(brand._id)} 
+                /> 
+                {brand.name}
+              </label>
+            ))}
+            {brands.length === 0 && <span style={{ fontSize: '0.85rem', color: '#888' }}>Không có brand</span>}
           </div>
         </aside>
 
@@ -100,53 +123,70 @@ const Shop = () => {
           
           {/* Lưới sản phẩm */}
           <div className="product-grid">
-            {MOCK_PRODUCTS.map((product) => (
-              <div className="product-card" key={product.id}>
-                
-                <div className="product-image-container">
-                  {/* Icon Heart Góc phải */}
-                  <div className="heart-icon-wrapper">
-                    {product.liked ? (
-                      <FaHeart className="heart-filled heart-icon" />
-                    ) : (
-                      <FiHeart className="heart-outline heart-icon" />
-                    )}
+            {isLoading ? (
+              <p>Đang tải dữ liệu sản phẩm...</p>
+            ) : currentProducts.length > 0 ? (
+              currentProducts.map((product) => (
+                <div className="product-card" key={product._id}>
+                  <Link to={`/product/${product._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div className="product-image-container">
+                      {/* Icon Heart Góc phải */}
+                      <div className="heart-icon-wrapper">
+                        <FiHeart className="heart-outline heart-icon" />
+                      </div>
+                      {/* Ảnh sản phẩm */}
+                      <img 
+                        src={product.imageUrl || "https://placehold.co/300x300/e5e5e5/666?text=No+Image"} 
+                        alt={product.name} 
+                        className="product-img" 
+                      />
+                    </div>
+                    
+                    <div className="product-info">
+                      <div className="product-brand-rating">
+                        <span className="product-brand">{product.brand_id?.name || "No Brand"}</span>
+                        <span className="product-rating">
+                          {product.rating || "0"} <FaStar className="star-icon" />
+                        </span>
+                      </div>
+                      <h4 className="product-name">{product.name}</h4>
+                      <p className="product-price">{(product.price || 0).toLocaleString("vi-VN")} VNĐ</p>
+                    </div>
+                  </Link>
+
+                  <div className="product-info" style={{ paddingTop: 0 }}>
+                    {/* Nút thêm vào giỏ hàng */}
+                    <button className="add-to-cart-btn">Thêm vào giỏ</button>
                   </div>
-                  
-                  {/* Ảnh sản phẩm */}
-                  <img 
-                    src={product.imgUrl} 
-                    alt={product.name} 
-                    className="product-img" 
-                  />
                 </div>
-                
-                <div className="product-info">
-                  <div className="product-brand-rating">
-                    <span className="product-brand">{product.brand}</span>
-                    <span className="product-rating">
-                      {product.rating} <FaStar className="star-icon" />
-                    </span>
-                  </div>
-                  <h4 className="product-name">{product.name}</h4>
-                  <p className="product-price">{product.price} VNĐ</p>
-                  
-                  {/* Nút thêm vào giỏ hàng */}
-                  <button className="add-to-cart-btn">Thêm vào giỏ</button>
-                </div>
-                
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>Chưa có sản phẩm nào phù hợp với bộ lọc.</p>
+            )}
           </div>
 
           {/* Phân trang */}
-          <div className="pagination">
-            <button className="page-nav-btn"><FiChevronLeft /></button>
-            <button className="page-num-btn active">1</button>
-            <button className="page-num-btn">2</button>
-            <button className="page-num-btn">3</button>
-            <button className="page-nav-btn"><FiChevronRight /></button>
-          </div>
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button className="page-nav-btn" onClick={goToPrevPage} disabled={currentPage === 1}>
+                <FiChevronLeft />
+              </button>
+              
+              {[...Array(totalPages)].map((_, i) => (
+                <button 
+                  key={i + 1} 
+                  className={`page-num-btn ${currentPage === i + 1 ? 'active' : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+              
+              <button className="page-nav-btn" onClick={goToNextPage} disabled={currentPage === totalPages}>
+                <FiChevronRight />
+              </button>
+            </div>
+          )}
           
         </main>
       </div>

@@ -287,7 +287,7 @@
   letter-spacing: 0.5px;
 }
 
-.admin-form input, .admin-form textarea {
+.admin-form input, .admin-form textarea, .admin-form select {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
@@ -300,7 +300,7 @@
   box-sizing: border-box;
 }
 
-.admin-form input:focus, .admin-form textarea:focus {
+.admin-form input:focus, .admin-form textarea:focus, .admin-form select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-bg);
@@ -316,6 +316,61 @@
   bottom: 0;
   background: var(--bg);
   z-index: 10;
+}
+
+.gallery-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-add-gallery {
+  background: var(--social-bg);
+  border: 1px dashed var(--accent);
+  color: var(--accent);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s;
+}
+
+.btn-add-gallery:hover {
+  background: var(--accent-bg);
+}
+
+.gallery-item-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-remove-gallery {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: none;
+  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-remove-gallery:hover {
+  background: #ef4444;
+  color: white;
 }
 
 /* Responsiveness */

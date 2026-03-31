@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiHeart } from 'react-icons/fi';
 import { FaStar, FaRegStar, FaStarHalfAlt, FaPaperPlane } from 'react-icons/fa';
+import axios from 'axios';
 import Header from '../components/Header/Header';
 import './ProductDetail.css';
 
@@ -16,23 +17,25 @@ const ProductDetail = () => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   useEffect(() => {
-    setProduct({
-      _id: '001',
-      brand: 'Asics',
-      name: 'Giày cầu lông Asics Court Control FF 4 Wide - Trắng vàng chính hãng',
-      price: 3100000,
-      status: 'Còn hàng',
-      images: [
-        '/images/shoe_side.png',
-        '/images/shoe_back.png',
-        '/images/shoe_sole.png',
-      ],
-      sizes: ['36', '37', '38', '39', '40', '41', '42', '43', '44'],
-      rating: 4,
-      reviewCount: 222,
-      description:
-        'Giày cầu lông Asics Court Control FF 4 Wide được thiết kế dành cho những người chơi có bàn chân rộng. Đế GEL™ giảm chấn tuyệt vời, bề mặt upper thoáng khí và độ bám sân xuất sắc giúp bạn tự tin trong mọi pha di chuyển.',
-    });
+    const fetchProductDetails = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+        // Gộp ảnh chính và thư viện ảnh phụ vào một mảng duy nhất để render UI thuận tiện
+        const allImages = [data.imageUrl, ...(data.gallery || [])].filter(Boolean);
+        
+        setProduct({
+          ...data,
+          images: allImages.length > 0 ? allImages : ["https://placehold.co/600x600/e5e5e5/666?text=No+Image"],
+          brandName: data.brand_id?.name || "Đang cập nhật",
+          status: data.stock > 0 ? 'Còn hàng' : 'Hết hàng',
+          sizes: data.sizes?.length > 0 ? data.sizes : ['36', '37', '38', '39', '40', '41', '42'], // Default mock sizes nếu db chưa có
+          description: data.description || "Chưa có mô tả cho sản phẩm này."
+        });
+      } catch (error) {
+        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+      }
+    };
+    fetchProductDetails();
   }, [id]);
 
   const renderStars = (rating) => {
@@ -133,13 +136,13 @@ const ProductDetail = () => {
           </div>
 
           <div className="pd-brand-row">
-            <span>Thương hiệu: <a href="/brand" className="pd-brand-link">{product.brand}</a></span>
+            <span>Thương hiệu: <a href="/shop" className="pd-brand-link">{product.brandName}</a></span>
             <span className="pd-divider">|</span>
             <span>Tình trạng: <strong className="pd-status">{product.status}</strong></span>
           </div>
 
           <div className="pd-price">
-            Giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+            Giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price || 0)}
           </div>
 
           {/* Size Selection */}
@@ -201,9 +204,9 @@ const ProductDetail = () => {
                   Đánh giá &amp; nhận xét {product.name} ({product._id})
                 </p>
                 <div className="review-stars-row">
-                  {renderStars(product.rating)}
+                  {renderStars(product.rating || 0)}
                   <span className="review-score">
-                    {product.rating}/5 ({product.reviewCount} reviews)
+                    {product.rating || 0}/5 ({product.numReviews || 0} reviews)
                   </span>
                 </div>
               </div>
