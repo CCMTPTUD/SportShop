@@ -4,10 +4,12 @@ import { FiHeart } from 'react-icons/fi';
 import { FaStar, FaRegStar, FaStarHalfAlt, FaPaperPlane } from 'react-icons/fa';
 import axios from 'axios';
 import Header from '../components/Header/Header';
+import { useCart } from '../context/CartContext';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { addToCart } = useCart();
 
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState('');
@@ -51,7 +53,8 @@ const ProductDetail = () => {
       alert('Vui lòng chọn Size trước khi thêm vào giỏ hàng!');
       return;
     }
-    alert(`Đã thêm vào giỏ hàng! Size: ${selectedSize}`);
+    addToCart(product, 1, selectedSize);
+    alert(`Đã thêm sản phẩm (Size: ${selectedSize}) vào giỏ hàng!`);
   };
 
   const handleBuyNow = () => {

@@ -1,67 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FiTrash2, FiShoppingBag } from "react-icons/fi";
 import Header from "../components/Header/Header";
+import { useCart } from "../context/CartContext";
 import "./Cart.css";
 
 const Cart = () => {
   const navigate = useNavigate();
-
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Bóng đá Size 5",
-      price: 17500,
-      quantity: 2,
-      image: "https://cdn-icons-png.flaticon.com/512/53/53283.png",
-    },
-    {
-      id: 2,
-      name: "Bóng chuyền Da",
-      price: 40000,
-      quantity: 1,
-      image: "https://cdn-icons-png.flaticon.com/512/3255/3255393.png",
-    },
-    {
-      id: 3,
-      name: "Vợt cầu lông Pro",
-      price: 250000,
-      quantity: 1,
-      image: "https://cdn-icons-png.flaticon.com/512/3255/3255375.png",
-    },
-  ]);
+  const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
 
   const formatCurrency = (amount) => amount.toLocaleString("vi-VN") + " đ";
 
-  const handleIncrease = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
-      ),
-    );
+  const handleIncrease = (id, size, qty) => {
+    updateQuantity(id, size, qty + 1);
   };
 
-  const handleDecrease = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item,
-      ),
-    );
+  const handleDecrease = (id, size, qty) => {
+    if (qty > 1) {
+      updateQuantity(id, size, qty - 1);
+    }
   };
 
-  const handleRemove = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+  const handleRemove = (id, size) => {
+    removeFromCart(id, size);
   };
 
-  const totalAmount = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0,
-  );
+  const totalAmount = getCartTotal();
 
   const goToCheckout = () => {
-    if (cartItems.length === 0) return alert("Giỏ hàng đang trống!");
+    if (cart.length === 0) return alert("Giỏ hàng đang trống!");
     navigate("/checkout");
   };
 
@@ -71,7 +38,7 @@ const Cart = () => {
       <div className="cart-container">
         <h1 className="cart-title">Giỏ hàng</h1>
 
-        {cartItems.length === 0 ? (
+        {cart.length === 0 ? (
           <div className="empty-cart">
             <FiShoppingBag
               style={{
@@ -105,6 +72,7 @@ const Cart = () => {
                 <thead>
                   <tr>
                     <th>Sản phẩm</th>
+                    <th>Size</th>
                     <th>Đơn giá</th>
                     <th>Số lượng</th>
                     <th>Thành tiền</th>
@@ -112,18 +80,19 @@ const Cart = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cartItems.map((item) => (
-                    <tr key={item.id}>
+                  {cart.map((item) => (
+                    <tr key={`${item._id}-${item.size}`}>
                       <td>
                         <div className="cart-product-info">
                           <img
-                            src={item.image}
+                            src={item.imageUrl || "https://placehold.co/300x300/e5e5e5/666?text=No+Image"}
                             alt={item.name}
                             className="cart-product-img"
                           />
                           <span className="cart-product-name">{item.name}</span>
                         </div>
                       </td>
+                      <td style={{ color: "#555", fontWeight: "500" }}>{item.size}</td>
                       <td style={{ color: "#555", fontWeight: "500" }}>
                         {formatCurrency(item.price)}
                       </td>
@@ -131,26 +100,26 @@ const Cart = () => {
                         <div className="cart-qty-controls">
                           <button
                             className="cart-qty-btn"
-                            onClick={() => handleDecrease(item.id)}
+                            onClick={() => handleDecrease(item._id, item.size, item.qty)}
                           >
                             -
                           </button>
-                          <span>{item.quantity}</span>
+                          <span>{item.qty}</span>
                           <button
                             className="cart-qty-btn"
-                            onClick={() => handleIncrease(item.id)}
+                            onClick={() => handleIncrease(item._id, item.size, item.qty)}
                           >
                             +
                           </button>
                         </div>
                       </td>
                       <td style={{ fontWeight: "700", color: "#000" }}>
-                        {formatCurrency(item.price * item.quantity)}
+                        {formatCurrency(item.price * item.qty)}
                       </td>
                       <td>
                         <button
                           className="btn-remove"
-                          onClick={() => handleRemove(item.id)}
+                          onClick={() => handleRemove(item._id, item.size)}
                           title="Xóa"
                         >
                           <FiTrash2 />
