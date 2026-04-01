@@ -210,6 +210,12 @@
 }
 .accent-gradient .stat-icon-wrapper { background: rgba(170, 59, 255, 0.15); color: var(--accent); }
 
+.success-gradient {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(20, 183, 82, 0.05) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+.success-gradient .stat-icon-wrapper { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+
 .stat-icon-wrapper {
   width: 64px;
   height: 64px;

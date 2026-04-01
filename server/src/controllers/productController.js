@@ -28,6 +28,36 @@ exports.getProductById = async (req, res) => {
   }
 };
 
+// Lấy sản phẩm theo danh mục
+exports.getProductsByCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const products = await Product.find({ category_id: categoryId })
+      .populate("category_id", "name")
+      .populate("brand_id", "name")
+      .sort({ createdAt: -1 });
+    
+    if (!products || products.length === 0) {
+      return res.status(200).json({ 
+        message: "Không có sản phẩm trong danh mục này",
+        products: [],
+        categoryId: categoryId
+      });
+    }
+    
+    // Lấy tên danh mục từ sản phẩm đầu tiên
+    const categoryName = products[0].category_id?.name || "Danh mục";
+    
+    res.status(200).json({ 
+      products,
+      categoryName,
+      categoryId: categoryId
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi khi lấy sản phẩm theo danh mục", error: error.message });
+  }
+};
+
 // Thêm mới sản phẩm
 exports.createProduct = async (req, res) => {
   try {

@@ -6,6 +6,9 @@ const { protect, admin } = require("../middlewares/authMiddleware");
 // Lấy danh sách sản phẩm
 router.get("/", productController.getAllProducts);
 
+// Lấy sản phẩm theo danh mục
+router.get("/category/:categoryId", productController.getProductsByCategory);
+
 // Lấy chi tiết 1 sản phẩm
 router.get("/:id", productController.getProductById);
 
