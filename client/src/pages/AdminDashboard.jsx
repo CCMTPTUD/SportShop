@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { FiBox, FiUsers, FiShoppingCart, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiBox, FiUsers, FiShoppingCart, FiSettings, FiLogOut, FiTag } from "react-icons/fi";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -25,6 +25,7 @@ const AdminDashboard = () => {
     return { headers: { Authorization: `Bearer ${token}` } };
   };
   const [productCount, setProductCount] = useState(0);
+  const [categoryCount, setCategoryCount] = useState(0);
   useEffect(() => {
     // 1. Bảo vệ trang Admin (Phân quyền UI)
     const role = localStorage.getItem("userRole");
@@ -56,6 +57,14 @@ const AdminDashboard = () => {
       } catch (innerError) {
         console.error("Lỗi khi lấy số lượng sản phẩm:", innerError);
       }
+
+      // Lấy số lượng danh mục
+      try {
+        const { data } = await axios.get("http://localhost:5000/api/categories");
+        setCategoryCount(data.length);
+      } catch (innerError) {
+        console.error("Lỗi khi lấy số lượng danh mục:", innerError);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +95,9 @@ const AdminDashboard = () => {
           </Link>
           <Link to="/admin/products" className="nav-item">
             <FiBox className="nav-icon" /> Quản Lý Sản Phẩm
+          </Link>
+          <Link to="/admin/categories" className="nav-item">
+            <FiTag className="nav-icon" /> Quản Lý Danh Mục
           </Link>
           <div className="nav-item disabled" title="Tính năng đang phát triển">
             <FiUsers className="nav-icon" /> Quản Lý User
@@ -146,6 +158,17 @@ const AdminDashboard = () => {
               <span className="stat-trend neutral">{stats.newOrders} đơn chờ xử lý</span>
             </div>
           </div>
+
+          <div className="stat-card success-gradient">
+            <div className="stat-icon-wrapper">
+              <FiTag className="stat-icon" />
+            </div>
+            <div className="stat-details">
+              <h3>Tổng Danh Mục</h3>
+              <p className="stat-number">{isLoading ? "..." : categoryCount}</p>
+              <span className="stat-trend positive">Quản lý danh mục</span>
+            </div>
+          </div>
         </section>
 
         <section className="quick-actions">
@@ -157,6 +180,13 @@ const AdminDashboard = () => {
                 </div>
                 <h3>CRUD Sản Phẩm</h3>
                 <p>Thêm, sửa, xóa các sản phẩm kinh doanh</p>
+             </Link>
+             <Link to="/admin/categories" className="action-card">
+                <div className="action-icon">
+                   <FiTag />
+                </div>
+                <h3>Quản Lý Danh Mục</h3>
+                <p>Quản lý các danh mục sản phẩm</p>
              </Link>
           </div>
         </section>

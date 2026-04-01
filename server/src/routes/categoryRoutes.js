@@ -9,4 +9,10 @@ router.get("/", categoryController.getCategories);
 // Route thêm mới (Chỉ Admin)
 router.post("/", protect, admin, categoryController.createCategory);
 
+// Route cập nhật (Chỉ Admin)
+router.put("/:id", protect, admin, categoryController.updateCategory);
+
+// Route xóa (Chỉ Admin)
+router.delete("/:id", protect, admin, categoryController.deleteCategory);
+
 module.exports = router;

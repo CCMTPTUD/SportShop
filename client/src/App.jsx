@@ -20,7 +20,10 @@ import Wishlist from "./pages/Wishlist";
 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop"; /* Thêm dòng import Shop */
+import Categories from "./pages/Categories";
+import Category from "./pages/Category";
 import AdminProduct from "./pages/AdminProduct";
+import AdminCategory from "./pages/AdminCategory";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
 
@@ -33,6 +36,8 @@ function App() {
         {/* Định nghĩa từng Route cụ thể */}
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} /> {/* Thêm route mới */}
+        <Route path="/danh-muc" element={<Categories />} />
+        <Route path="/category/:categoryId" element={<Category />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -58,6 +63,14 @@ function App() {
           element={
             <AdminRoute>
               <AdminProduct />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/categories"
+          element={
+            <AdminRoute>
+              <AdminCategory />
             </AdminRoute>
           }
         />
