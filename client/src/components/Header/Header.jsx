@@ -82,8 +82,8 @@ const Header = () => {
           <a href="/shop" className="nav-item">
             Shop
           </a>
-          <a href="/brand" className="nav-item">
-            Brand
+          <a href="/thuong-hieu" className="nav-item">
+            Thương hiệu
           </a>
           <a href="/danh-muc" className="nav-item">
             Danh mục

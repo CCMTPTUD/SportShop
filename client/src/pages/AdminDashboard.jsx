@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { FiBox, FiUsers, FiShoppingCart, FiSettings, FiLogOut, FiTag } from "react-icons/fi";
+import { FiBox, FiUsers, FiShoppingCart, FiSettings, FiLogOut, FiTag, FiAward } from "react-icons/fi";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -26,6 +26,7 @@ const AdminDashboard = () => {
   };
   const [productCount, setProductCount] = useState(0);
   const [categoryCount, setCategoryCount] = useState(0);
+  const [brandCount, setBrandCount] = useState(0);
   useEffect(() => {
     // 1. Bảo vệ trang Admin (Phân quyền UI)
     const role = localStorage.getItem("userRole");
@@ -57,15 +58,22 @@ const AdminDashboard = () => {
       } catch (innerError) {
         console.error("Lỗi khi lấy số lượng sản phẩm:", innerError);
       }
-
-      // Lấy số lượng danh mục
+    } finally {
+      // Luôn fetch categories và brands dù stats lỗi hay không
       try {
         const { data } = await axios.get("http://localhost:5000/api/categories");
         setCategoryCount(data.length);
-      } catch (innerError) {
-        console.error("Lỗi khi lấy số lượng danh mục:", innerError);
+      } catch (error) {
+        console.error("Lỗi khi lấy số lượng danh mục:", error);
       }
-    } finally {
+
+      try {
+        const { data } = await axios.get("http://localhost:5000/api/brands");
+        setBrandCount(data.length);
+      } catch (error) {
+        console.error("Lỗi khi lấy số lượng thương hiệu:", error);
+      }
+
       setIsLoading(false);
     }
   };
@@ -98,6 +106,9 @@ const AdminDashboard = () => {
           </Link>
           <Link to="/admin/categories" className="nav-item">
             <FiTag className="nav-icon" /> Quản Lý Danh Mục
+          </Link>
+          <Link to="/admin/brands" className="nav-item">
+            <FiAward className="nav-icon" /> Quản Lý Thương Hiệu
           </Link>
           <div className="nav-item disabled" title="Tính năng đang phát triển">
             <FiUsers className="nav-icon" /> Quản Lý User
@@ -169,6 +180,17 @@ const AdminDashboard = () => {
               <span className="stat-trend positive">Quản lý danh mục</span>
             </div>
           </div>
+
+          <div className="stat-card warning-gradient">
+            <div className="stat-icon-wrapper">
+              <FiAward className="stat-icon" />
+            </div>
+            <div className="stat-details">
+              <h3>Tổng Thương Hiệu</h3>
+              <p className="stat-number">{isLoading ? "..." : brandCount}</p>
+              <span className="stat-trend positive">Quản lý thương hiệu</span>
+            </div>
+          </div>
         </section>
 
         <section className="quick-actions">
@@ -187,6 +209,13 @@ const AdminDashboard = () => {
                 </div>
                 <h3>Quản Lý Danh Mục</h3>
                 <p>Quản lý các danh mục sản phẩm</p>
+             </Link>
+             <Link to="/admin/brands" className="action-card">
+                <div className="action-icon">
+                   <FiAward />
+                </div>
+                <h3>Quản Lý Thương Hiệu</h3>
+                <p>Quản lý các thương hiệu sản phẩm</p>
              </Link>
           </div>
         </section>

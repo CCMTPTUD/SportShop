@@ -1,0 +1,250 @@
+/* src/pages/Brands.css */
+
+.brands-page {
+  font-family: "Inter", sans-serif;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.brands-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Title Section */
+.brands-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.brands-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.brands-header p {
+  margin: 5px 0 0 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.btn-see-all {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-see-all:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* Alphabet Filter */
+.alphabet-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.filter-btn {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 40px;
+  text-align: center;
+}
+
+.filter-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.filter-btn.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* Brands Section */
+.brands-section {
+  margin-top: 40px;
+}
+
+.brands-section h2 {
+  margin: 0 0 30px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Grid Layout */
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* Brand Card */
+.brand-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.brand-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Box */
+.brand-image-box {
+  width: 100%;
+  height: 200px;
+  background: #f9f9f9;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.brand-card:hover .brand-image-box img {
+  transform: scale(1.05);
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+/* Content Box */
+.brand-content {
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+.brand-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.brand-content p {
+  margin: 0 0 15px 0;
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Button */
+.btn-shop-now {
+  width: 100%;
+  background: #64748b;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-shop-now:hover {
+  background: #475569;
+  transform: translateY(-2px);
+}
+
+.btn-shop-now:active {
+  transform: translateY(0);
+}
+
+/* Loading & Empty */
+.loading,
+.no-brands {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .brands-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-see-all {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .brands-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .brands-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .alphabet-filter {
+    gap: 5px;
+  }
+
+  .filter-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    min-width: 35px;
+  }
+
+  .brand-image-box {
+    height: 150px;
+  }
+}

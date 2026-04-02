@@ -216,6 +216,12 @@
 }
 .success-gradient .stat-icon-wrapper { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
 
+.warning-gradient {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+.warning-gradient .stat-icon-wrapper { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
 .stat-icon-wrapper {
   width: 64px;
   height: 64px;
