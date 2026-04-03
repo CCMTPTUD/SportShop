@@ -16,10 +16,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        API_ENDPOINTS.LOGIN,
-        formData,
-      );
+      const response = await axios.post(API_ENDPOINTS.LOGIN, formData);
 
       alert("Đăng nhập thành công!");
       // Lưu token và thông tin người dùng vào localStorage

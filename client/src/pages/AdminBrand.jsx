@@ -96,9 +96,15 @@ const AdminBrand = () => {
 
       if (editingId) {
         // Update
-        const response = await axios.put(`${API_URL}/${editingId}`, dataToSend, config);
+        const response = await axios.put(
+          `${API_URL}/${editingId}`,
+          dataToSend,
+          config,
+        );
         setBrands((prev) =>
-          prev.map((brand) => (brand._id === editingId ? response.data : brand))
+          prev.map((brand) =>
+            brand._id === editingId ? response.data : brand,
+          ),
         );
         alert("Cập nhật thương hiệu thành công!");
       } else {
@@ -219,7 +225,9 @@ const AdminBrand = () => {
         <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>{editingId ? "Chỉnh Sửa Thương Hiệu" : "Thêm Thương Hiệu Mới"}</h2>
+              <h2>
+                {editingId ? "Chỉnh Sửa Thương Hiệu" : "Thêm Thương Hiệu Mới"}
+              </h2>
               <button className="btn-close" onClick={handleCloseModal}>
                 <FiX />
               </button>
@@ -288,8 +296,8 @@ const AdminBrand = () => {
                   {isLoading
                     ? "Đang xử lý..."
                     : editingId
-                    ? "Cập Nhật"
-                    : "Tạo Mới"}
+                      ? "Cập Nhật"
+                      : "Tạo Mới"}
                 </button>
               </div>
             </form>

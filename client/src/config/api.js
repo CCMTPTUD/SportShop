@@ -4,8 +4,8 @@
 // In production remote: use absolute URL to backend domain
 
 const isDev = import.meta.env.DEV;
-const API_BASE_URL = isDev 
-  ? (import.meta.env.VITE_API_URL || "http://localhost:5000")
+const API_BASE_URL = isDev
+  ? import.meta.env.VITE_API_URL || "http://localhost:5000"
   : ""; // Production: empty string means relative path (/api/...)
 
 export const API_ENDPOINTS = {
@@ -16,8 +16,10 @@ export const API_ENDPOINTS = {
   // Products
   PRODUCTS: `${API_BASE_URL}/api/products`,
   PRODUCT_DETAIL: (id) => `${API_BASE_URL}/api/products/${id}`,
-  PRODUCTS_BY_BRAND: (brandId) => `${API_BASE_URL}/api/products/brand/${brandId}`,
-  PRODUCTS_BY_CATEGORY: (categoryId) => `${API_BASE_URL}/api/products/category/${categoryId}`,
+  PRODUCTS_BY_BRAND: (brandId) =>
+    `${API_BASE_URL}/api/products/brand/${brandId}`,
+  PRODUCTS_BY_CATEGORY: (categoryId) =>
+    `${API_BASE_URL}/api/products/category/${categoryId}`,
 
   // Categories
   CATEGORIES: `${API_BASE_URL}/api/categories`,

@@ -36,7 +36,7 @@ const Brands = () => {
       return brands;
     }
     return brands.filter((brand) =>
-      brand.name.toUpperCase().startsWith(selectedLetter)
+      brand.name.toUpperCase().startsWith(selectedLetter),
     );
   }, [brands, selectedLetter]);
 
@@ -54,7 +54,10 @@ const Brands = () => {
         <div className="brands-header">
           <h1>Thương hiệu sản phẩm</h1>
           <p>Tất cả các thương hiệu sản phẩm trong shop</p>
-          <button className="btn-see-all" onClick={() => setSelectedLetter("All")}>
+          <button
+            className="btn-see-all"
+            onClick={() => setSelectedLetter("All")}
+          >
             ≡ Xem tất cả
           </button>
         </div>
@@ -86,7 +89,9 @@ const Brands = () => {
             <div className="loading">Đang tải thương hiệu...</div>
           ) : filteredBrands.length === 0 ? (
             <div className="no-brands">
-              <p>Không có thương hiệu nào bắt đầu bằng chữ "{selectedLetter}"</p>
+              <p>
+                Không có thương hiệu nào bắt đầu bằng chữ "{selectedLetter}"
+              </p>
             </div>
           ) : (
             <div className="brands-grid">
@@ -101,7 +106,9 @@ const Brands = () => {
                   </div>
                   <div className="brand-content">
                     <h3>{brand.name}</h3>
-                    <p>{brand.description || "Khám phá thương hiệu sản phẩm này"}</p>
+                    <p>
+                      {brand.description || "Khám phá thương hiệu sản phẩm này"}
+                    </p>
                     <button
                       className="btn-shop-now"
                       onClick={() => handleBrandClick(brand._id)}

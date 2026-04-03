@@ -36,7 +36,7 @@ const Categories = () => {
       return categories;
     }
     return categories.filter((cat) =>
-      cat.name.toUpperCase().startsWith(selectedLetter)
+      cat.name.toUpperCase().startsWith(selectedLetter),
     );
   }, [categories, selectedLetter]);
 
@@ -54,7 +54,10 @@ const Categories = () => {
         <div className="categories-header">
           <h1>Danh mục sản phẩm</h1>
           <p>Tất cả các danh mục sản phẩm trong shop</p>
-          <button className="btn-see-all" onClick={() => setSelectedLetter("All")}>
+          <button
+            className="btn-see-all"
+            onClick={() => setSelectedLetter("All")}
+          >
             ≡ Xem tất cả
           </button>
         </div>
@@ -101,7 +104,9 @@ const Categories = () => {
                   </div>
                   <div className="category-content">
                     <h3>{category.name}</h3>
-                    <p>{category.description || "Khám phá danh mục sản phẩm này"}</p>
+                    <p>
+                      {category.description || "Khám phá danh mục sản phẩm này"}
+                    </p>
                     <button
                       className="btn-shop-now"
                       onClick={() => handleCategoryClick(category._id)}

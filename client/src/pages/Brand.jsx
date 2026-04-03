@@ -34,7 +34,7 @@ const Brand = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          API_ENDPOINTS.PRODUCTS_BY_BRAND(brandId)
+          API_ENDPOINTS.PRODUCTS_BY_BRAND(brandId),
         );
         setProducts(response.data.products || response.data);
         setBrandName(response.data.brandName || "Thương hiệu");
@@ -70,7 +70,7 @@ const Brand = () => {
   const startIndex = (currentPage - 1) * productsPerPage;
   const displayedProducts = sortedProducts.slice(
     startIndex,
-    startIndex + productsPerPage
+    startIndex + productsPerPage,
   );
 
   const handleAddToCart = (product) => {
@@ -87,7 +87,7 @@ const Brand = () => {
     setWishlistIds(newWishlist);
     localStorage.setItem(
       "wishlistItems",
-      JSON.stringify(Array.from(newWishlist))
+      JSON.stringify(Array.from(newWishlist)),
     );
   };
 

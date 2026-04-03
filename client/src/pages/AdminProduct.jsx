@@ -13,7 +13,7 @@ const AdminProduct = () => {
   const [brands, setBrands] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // State for the form
   const [formData, setFormData] = useState({
     _id: "",
@@ -22,8 +22,8 @@ const AdminProduct = () => {
     price: "",
     imageUrl: "",
     gallery: [], // Mảng lưu các ảnh phụ
-    category_id: "", 
-    brand_id: "", 
+    category_id: "",
+    brand_id: "",
   });
 
   const API_URL = API_ENDPOINTS.PRODUCTS;
@@ -131,7 +131,7 @@ const AdminProduct = () => {
     try {
       const payload = { ...formData };
       const config = getAuthHeaders();
-      
+
       if (formData._id) {
         // Cập nhật sản phẩm
         await axios.put(`${API_URL}/${formData._id}`, payload, config);
@@ -148,7 +148,10 @@ const AdminProduct = () => {
         alert("Bạn không có quyền thực hiện hành động này!");
         if (error.response?.status === 401) navigate("/login");
       } else if (error.message !== "No token") {
-        alert("Đã xảy ra lỗi khi lưu sản phẩm: " + (error.response?.data?.message || error.message));
+        alert(
+          "Đã xảy ra lỗi khi lưu sản phẩm: " +
+            (error.response?.data?.message || error.message),
+        );
       }
     }
   };
@@ -171,9 +174,13 @@ const AdminProduct = () => {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Link to="/admin" className="btn-secondary" style={{ padding: '8px 12px' }}>
-             <FiArrowLeft /> Dashboard
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <Link
+            to="/admin"
+            className="btn-secondary"
+            style={{ padding: "8px 12px" }}
+          >
+            <FiArrowLeft /> Dashboard
           </Link>
           <h2>Quản Lý Sản Phẩm</h2>
         </div>
@@ -201,23 +208,37 @@ const AdminProduct = () => {
                 <tr key={product._id}>
                   <td>
                     {product.imageUrl ? (
-                      <img src={product.imageUrl} alt={product.name} className="product-thumb" />
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className="product-thumb"
+                      />
                     ) : (
                       <div className="no-image">No IMG</div>
                     )}
                   </td>
                   <td className="product-name">{product.name}</td>
-                  <td className="product-price">{product.price.toLocaleString("vi-VN")} đ</td>
+                  <td className="product-price">
+                    {product.price.toLocaleString("vi-VN")} đ
+                  </td>
                   <td>
-                    <span className={`stock-badge ${product.stock > 0 ? "in-stock" : "out-of-stock"}`}>
+                    <span
+                      className={`stock-badge ${product.stock > 0 ? "in-stock" : "out-of-stock"}`}
+                    >
                       {product.stock}
                     </span>
                   </td>
                   <td className="action-btns">
-                    <button className="btn-edit" onClick={() => openModal(product)}>
+                    <button
+                      className="btn-edit"
+                      onClick={() => openModal(product)}
+                    >
                       <FiEdit2 />
                     </button>
-                    <button className="btn-delete" onClick={() => handleDelete(product._id)}>
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(product._id)}
+                    >
                       <FiTrash2 />
                     </button>
                   </td>
@@ -225,7 +246,9 @@ const AdminProduct = () => {
               ))}
               {products.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="empty-state">Không có sản phẩm nào.</td>
+                  <td colSpan="5" className="empty-state">
+                    Không có sản phẩm nào.
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -237,12 +260,14 @@ const AdminProduct = () => {
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>{formData._id ? "Cập Nhật Sản Phẩm" : "Thêm Sản Phẩm Mới"}</h3>
+              <h3>
+                {formData._id ? "Cập Nhật Sản Phẩm" : "Thêm Sản Phẩm Mới"}
+              </h3>
               <button className="btn-close" onClick={closeModal}>
                 <FiX />
               </button>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="admin-form">
               <div className="form-group">
                 <label>Tên Sản Phẩm *</label>
@@ -297,7 +322,11 @@ const AdminProduct = () => {
               <div className="form-group gallery-group">
                 <div className="gallery-header">
                   <label>Hình Ảnh Phụ (Gallery)</label>
-                  <button type="button" className="btn-add-gallery" onClick={addGalleryItem}>
+                  <button
+                    type="button"
+                    className="btn-add-gallery"
+                    onClick={addGalleryItem}
+                  >
                     <FiPlus /> Thêm Ảnh Phụ
                   </button>
                 </div>
@@ -307,9 +336,15 @@ const AdminProduct = () => {
                       type="text"
                       placeholder="Nhập đường dẫn ảnh phụ..."
                       value={imgUrl}
-                      onChange={(e) => handleGalleryChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleGalleryChange(index, e.target.value)
+                      }
                     />
-                    <button type="button" className="btn-remove-gallery" onClick={() => removeGalleryItem(index)}>
+                    <button
+                      type="button"
+                      className="btn-remove-gallery"
+                      onClick={() => removeGalleryItem(index)}
+                    >
                       <FiX />
                     </button>
                   </div>
@@ -325,9 +360,13 @@ const AdminProduct = () => {
                     onChange={handleChange}
                     required
                   >
-                    <option value="" disabled>-- Chọn Danh Mục --</option>
+                    <option value="" disabled>
+                      -- Chọn Danh Mục --
+                    </option>
                     {categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>{cat.name}</option>
+                      <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -339,9 +378,13 @@ const AdminProduct = () => {
                     onChange={handleChange}
                     required
                   >
-                    <option value="" disabled>-- Chọn Thương Hiệu --</option>
+                    <option value="" disabled>
+                      -- Chọn Thương Hiệu --
+                    </option>
                     {brands.map((brand) => (
-                      <option key={brand._id} value={brand._id}>{brand.name}</option>
+                      <option key={brand._id} value={brand._id}>
+                        {brand.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -359,7 +402,13 @@ const AdminProduct = () => {
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="btn-secondary" onClick={closeModal}>Hủy Bỏ</button>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={closeModal}
+                >
+                  Hủy Bỏ
+                </button>
                 <button type="submit" className="btn-primary">
                   {formData._id ? "Lưu Cập Nhật" : "Tạo Mới"}
                 </button>

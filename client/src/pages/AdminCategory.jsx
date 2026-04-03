@@ -102,9 +102,13 @@ const AdminCategory = () => {
 
       if (editingId) {
         // Update
-        const response = await axios.put(`${API_URL}/${editingId}`, dataToSend, config);
+        const response = await axios.put(
+          `${API_URL}/${editingId}`,
+          dataToSend,
+          config,
+        );
         setCategories((prev) =>
-          prev.map((cat) => (cat._id === editingId ? response.data : cat))
+          prev.map((cat) => (cat._id === editingId ? response.data : cat)),
         );
         alert("Cập nhật danh mục thành công!");
       } else {
@@ -294,8 +298,8 @@ const AdminCategory = () => {
                   {isLoading
                     ? "Đang xử lý..."
                     : editingId
-                    ? "Cập Nhật"
-                    : "Tạo Mới"}
+                      ? "Cập Nhật"
+                      : "Tạo Mới"}
                 </button>
               </div>
             </form>

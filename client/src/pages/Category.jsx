@@ -34,7 +34,7 @@ const Category = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          API_ENDPOINTS.PRODUCTS_BY_CATEGORY(categoryId)
+          API_ENDPOINTS.PRODUCTS_BY_CATEGORY(categoryId),
         );
         setProducts(response.data.products || response.data);
         setCategoryName(response.data.categoryName || "Danh mục");
@@ -70,7 +70,7 @@ const Category = () => {
   const startIndex = (currentPage - 1) * productsPerPage;
   const displayedProducts = sortedProducts.slice(
     startIndex,
-    startIndex + productsPerPage
+    startIndex + productsPerPage,
   );
 
   const handleAddToCart = (product) => {
@@ -87,7 +87,7 @@ const Category = () => {
     setWishlistIds(newWishlist);
     localStorage.setItem(
       "wishlistItems",
-      JSON.stringify(Array.from(newWishlist))
+      JSON.stringify(Array.from(newWishlist)),
     );
   };
 

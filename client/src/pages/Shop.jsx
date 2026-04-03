@@ -1,6 +1,11 @@
 ﻿import React, { useState, useEffect } from "react";
 import Header from "../components/Header/Header";
-import { FiSliders, FiHeart, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import {
+  FiSliders,
+  FiHeart,
+  FiChevronLeft,
+  FiChevronRight,
+} from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -86,7 +91,8 @@ const Shop = () => {
   );
 
   const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const goToNextPage = () =>
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   const toggleWishlist = (product, event) => {
     if (event) {
@@ -124,7 +130,9 @@ const Shop = () => {
     const id = product._id || product.id;
     if (!id) return;
 
-    const stored = JSON.parse(localStorage.getItem("recentViewedItems") || "[]");
+    const stored = JSON.parse(
+      localStorage.getItem("recentViewedItems") || "[]",
+    );
     const trimmed = stored.filter((item) => (item._id || item.id) !== id);
     const next = [
       {
@@ -237,7 +245,8 @@ const Shop = () => {
                           {product.brand_id?.name || "No Brand"}
                         </span>
                         <span className="product-rating">
-                          {product.rating || "0"} <FaStar className="star-icon" />
+                          {product.rating || "0"}{" "}
+                          <FaStar className="star-icon" />
                         </span>
                       </div>
                       <h4 className="product-name">{product.name}</h4>

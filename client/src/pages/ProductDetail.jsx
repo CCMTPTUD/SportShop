@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { FiHeart } from 'react-icons/fi';
-import { FaStar, FaRegStar, FaStarHalfAlt, FaPaperPlane } from 'react-icons/fa';
-import axios from 'axios';
-import Header from '../components/Header/Header';
-import { useCart } from '../context/CartContext';
-import { API_ENDPOINTS } from '../config/api';
-import './ProductDetail.css';
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { FiHeart } from "react-icons/fi";
+import { FaStar, FaRegStar, FaStarHalfAlt, FaPaperPlane } from "react-icons/fa";
+import axios from "axios";
+import Header from "../components/Header/Header";
+import { useCart } from "../context/CartContext";
+import { API_ENDPOINTS } from "../config/api";
+import "./ProductDetail.css";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
 
   const [product, setProduct] = useState(null);
-  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedSize, setSelectedSize] = useState("");
   const [activeImage, setActiveImage] = useState(0);
-  const [activeTab, setActiveTab] = useState('review');
-  const [comment, setComment] = useState('');
+  const [activeTab, setActiveTab] = useState("review");
+  const [comment, setComment] = useState("");
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   useEffect(() => {
@@ -24,15 +24,23 @@ const ProductDetail = () => {
       try {
         const { data } = await axios.get(API_ENDPOINTS.PRODUCT_DETAIL(id));
         // Gộp ảnh chính và thư viện ảnh phụ vào một mảng duy nhất để render UI thuận tiện
-        const allImages = [data.imageUrl, ...(data.gallery || [])].filter(Boolean);
-        
+        const allImages = [data.imageUrl, ...(data.gallery || [])].filter(
+          Boolean,
+        );
+
         setProduct({
           ...data,
-          images: allImages.length > 0 ? allImages : ["https://placehold.co/600x600/e5e5e5/666?text=No+Image"],
+          images:
+            allImages.length > 0
+              ? allImages
+              : ["https://placehold.co/600x600/e5e5e5/666?text=No+Image"],
           brandName: data.brand_id?.name || "Đang cập nhật",
-          status: data.stock > 0 ? 'Còn hàng' : 'Hết hàng',
-          sizes: data.sizes?.length > 0 ? data.sizes : ['36', '37', '38', '39', '40', '41', '42'], // Default mock sizes nếu db chưa có
-          description: data.description || "Chưa có mô tả cho sản phẩm này."
+          status: data.stock > 0 ? "Còn hàng" : "Hết hàng",
+          sizes:
+            data.sizes?.length > 0
+              ? data.sizes
+              : ["36", "37", "38", "39", "40", "41", "42"], // Default mock sizes nếu db chưa có
+          description: data.description || "Chưa có mô tả cho sản phẩm này.",
         });
       } catch (error) {
         console.error("Lỗi khi lấy thông tin sản phẩm:", error);
@@ -44,14 +52,15 @@ const ProductDetail = () => {
   const renderStars = (rating) => {
     return [1, 2, 3, 4, 5].map((star) => {
       if (star <= rating) return <FaStar key={star} className="star filled" />;
-      if (star - 0.5 <= rating) return <FaStarHalfAlt key={star} className="star filled" />;
+      if (star - 0.5 <= rating)
+        return <FaStarHalfAlt key={star} className="star filled" />;
       return <FaRegStar key={star} className="star" />;
     });
   };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Vui lòng chọn Size trước khi thêm vào giỏ hàng!');
+      alert("Vui lòng chọn Size trước khi thêm vào giỏ hàng!");
       return;
     }
     addToCart(product, 1, selectedSize);
@@ -60,7 +69,7 @@ const ProductDetail = () => {
 
   const handleBuyNow = () => {
     if (!selectedSize) {
-      alert('Vui lòng chọn Size trước khi mua!');
+      alert("Vui lòng chọn Size trước khi mua!");
       return;
     }
     alert(`Mua ngay! Size: ${selectedSize}`);
@@ -69,7 +78,7 @@ const ProductDetail = () => {
   const handleSendComment = () => {
     if (!comment.trim()) return;
     alert(`Đã gửi bình luận: "${comment}"`);
-    setComment('');
+    setComment("");
   };
 
   if (!product)
@@ -87,11 +96,17 @@ const ProductDetail = () => {
       {/* Breadcrumb */}
       <div className="breadcrumb-bar">
         <div className="breadcrumb-inner">
-          <Link to="/" className="bc-link">Home</Link>
+          <Link to="/" className="bc-link">
+            Home
+          </Link>
           <span className="bc-sep">/</span>
-          <Link to="/shop" className="bc-link">Cầu lông</Link>
+          <Link to="/shop" className="bc-link">
+            Cầu lông
+          </Link>
           <span className="bc-sep">/</span>
-          <Link to="/shop" className="bc-link">Giày</Link>
+          <Link to="/shop" className="bc-link">
+            Giày
+          </Link>
           <span className="bc-sep">/</span>
           <span className="bc-current">{product.name}</span>
         </div>
@@ -106,7 +121,7 @@ const ProductDetail = () => {
             {product.images.map((img, idx) => (
               <button
                 key={idx}
-                className={`pd-thumb-btn ${activeImage === idx ? 'active' : ''}`}
+                className={`pd-thumb-btn ${activeImage === idx ? "active" : ""}`}
                 onClick={() => setActiveImage(idx)}
               >
                 <img src={img} alt={`thumb-${idx}`} />
@@ -116,7 +131,9 @@ const ProductDetail = () => {
 
           {/* Main Image */}
           <div className="pd-main-image-wrap">
-            <button className="expand-btn" title="Phóng to">⛶</button>
+            <button className="expand-btn" title="Phóng to">
+              ⛶
+            </button>
             <img
               src={product.images[activeImage]}
               alt={product.name}
@@ -132,7 +149,7 @@ const ProductDetail = () => {
           <div className="pd-meta-row">
             <span className="pd-code">Mã: {product._id}</span>
             <button
-              className={`pd-wishlist-btn ${isWishlisted ? 'active' : ''}`}
+              className={`pd-wishlist-btn ${isWishlisted ? "active" : ""}`}
               onClick={() => setIsWishlisted(!isWishlisted)}
             >
               <FiHeart /> thêm vào yêu thích
@@ -140,13 +157,25 @@ const ProductDetail = () => {
           </div>
 
           <div className="pd-brand-row">
-            <span>Thương hiệu: <a href="/shop" className="pd-brand-link">{product.brandName}</a></span>
+            <span>
+              Thương hiệu:{" "}
+              <a href="/shop" className="pd-brand-link">
+                {product.brandName}
+              </a>
+            </span>
             <span className="pd-divider">|</span>
-            <span>Tình trạng: <strong className="pd-status">{product.status}</strong></span>
+            <span>
+              Tình trạng:{" "}
+              <strong className="pd-status">{product.status}</strong>
+            </span>
           </div>
 
           <div className="pd-price">
-            Giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price || 0)}
+            Giá:{" "}
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(product.price || 0)}
           </div>
 
           {/* Size Selection */}
@@ -156,7 +185,7 @@ const ProductDetail = () => {
               {product.sizes.map((size) => (
                 <button
                   key={size}
-                  className={`pd-size-btn ${selectedSize === size ? 'selected' : ''}`}
+                  className={`pd-size-btn ${selectedSize === size ? "selected" : ""}`}
                   onClick={() => setSelectedSize(size)}
                 >
                   {size}
@@ -181,27 +210,27 @@ const ProductDetail = () => {
       <div className="pd-tabs-wrapper">
         <div className="pd-tabs">
           <button
-            className={`pd-tab-btn ${activeTab === 'description' ? 'active' : ''}`}
-            onClick={() => setActiveTab('description')}
+            className={`pd-tab-btn ${activeTab === "description" ? "active" : ""}`}
+            onClick={() => setActiveTab("description")}
           >
             Mô tả sản phẩm
           </button>
           <button
-            className={`pd-tab-btn ${activeTab === 'review' ? 'active' : ''}`}
-            onClick={() => setActiveTab('review')}
+            className={`pd-tab-btn ${activeTab === "review" ? "active" : ""}`}
+            onClick={() => setActiveTab("review")}
           >
             Đánh giá
           </button>
         </div>
 
         <div className="pd-tab-content">
-          {activeTab === 'description' && (
+          {activeTab === "description" && (
             <div className="pd-description">
               <p>{product.description}</p>
             </div>
           )}
 
-          {activeTab === 'review' && (
+          {activeTab === "review" && (
             <div className="pd-review-section">
               <div className="review-header">
                 <p className="review-product-name">
@@ -225,7 +254,10 @@ const ProductDetail = () => {
                     onChange={(e) => setComment(e.target.value)}
                     rows={3}
                   />
-                  <button className="comment-send-btn" onClick={handleSendComment}>
+                  <button
+                    className="comment-send-btn"
+                    onClick={handleSendComment}
+                  >
                     <FaPaperPlane /> Gửi
                   </button>
                 </div>
