@@ -63,12 +63,11 @@ jobs:
               echo "${{ secrets.DOCKERHUB_TOKEN || secrets.DOCKER_TOKEN }}" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             fi
 
-            # Dừng và xóa các container cũ đang chạy
-            $COMPOSE_CMD down || true
-
-            # Pull image mới từ Docker Hub và chạy lại container (không build tại VPS)
+            # Pull image mới trước; nếu pull lỗi thì giữ nguyên dịch vụ đang chạy
             $COMPOSE_CMD pull
-            $COMPOSE_CMD up -d --force-recreate --remove-orphans
+
+            # Recreate container từ image mới (không build trên VPS)
+            $COMPOSE_CMD up -d --no-build --force-recreate --remove-orphans
 
             # In trạng thái để dễ debug nếu có lỗi runtime
             $COMPOSE_CMD ps
