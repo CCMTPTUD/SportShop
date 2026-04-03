@@ -2,6 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FiMail, FiLock, FiUser } from "react-icons/fi";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 import "./Auth.css";
 
 const Register = () => {
@@ -25,7 +26,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", {
+      const response = await axios.post(API_ENDPOINTS.REGISTER, {
         fullName: formData.fullName,
         email: formData.email,
         password: formData.password,

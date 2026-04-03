@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 import "./AdminProduct.css";
 import { FiEdit2, FiTrash2, FiPlus, FiX, FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -25,7 +26,7 @@ const AdminProduct = () => {
     brand_id: "", 
   });
 
-  const API_URL = "http://localhost:5000/api/products";
+  const API_URL = API_ENDPOINTS.PRODUCTS;
 
   useEffect(() => {
     const role = localStorage.getItem("userRole");
@@ -41,8 +42,8 @@ const AdminProduct = () => {
   const fetchCategoriesAndBrands = async () => {
     try {
       const authConfig = getAuthHeaders(); // Tuỳ API, hiện backend Get /categories và /brands đang mở public
-      const resCategories = await axios.get("http://localhost:5000/api/categories");
-      const resBrands = await axios.get("http://localhost:5000/api/brands");
+      const resCategories = await axios.get(API_ENDPOINTS.CATEGORIES);
+      const resBrands = await axios.get(API_ENDPOINTS.BRANDS);
       setCategories(resCategories.data);
       setBrands(resBrands.data);
     } catch (error) {

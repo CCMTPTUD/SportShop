@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import Header from "../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 import "./Brands.css";
 
 const Brands = () => {
@@ -20,7 +21,7 @@ const Brands = () => {
   const fetchBrands = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get("http://localhost:5000/api/brands");
+      const response = await axios.get(API_ENDPOINTS.BRANDS);
       setBrands(response.data);
     } catch (error) {
       console.error("Lỗi khi tải thương hiệu:", error);

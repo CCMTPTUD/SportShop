@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { FiBox, FiUsers, FiShoppingCart, FiSettings, FiLogOut, FiTag, FiAward } from "react-icons/fi";
+import { API_ENDPOINTS } from "../config/api";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
   const fetchDashboardStats = async () => {
     try {
       const config = getAuthHeaders();
-      const { data } = await axios.get("http://localhost:5000/api/admin/dashboard", config);
+      const { data } = await axios.get(API_ENDPOINTS.ADMIN_DASHBOARD, config);
       setStats(data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu thống kê:", error);
@@ -53,7 +54,7 @@ const AdminDashboard = () => {
       }
       // Fallback: Lấy số lượng sản phẩm
       try {
-        const { data } = await axios.get("http://localhost:5000/api/products");
+        const { data } = await axios.get(API_ENDPOINTS.PRODUCTS);
         setProductCount(data.length);
       } catch (innerError) {
         console.error("Lỗi khi lấy số lượng sản phẩm:", innerError);
@@ -61,14 +62,14 @@ const AdminDashboard = () => {
     } finally {
       // Luôn fetch categories và brands dù stats lỗi hay không
       try {
-        const { data } = await axios.get("http://localhost:5000/api/categories");
+        const { data } = await axios.get(API_ENDPOINTS.CATEGORIES);
         setCategoryCount(data.length);
       } catch (error) {
         console.error("Lỗi khi lấy số lượng danh mục:", error);
       }
 
       try {
-        const { data } = await axios.get("http://localhost:5000/api/brands");
+        const { data } = await axios.get(API_ENDPOINTS.BRANDS);
         setBrandCount(data.length);
       } catch (error) {
         console.error("Lỗi khi lấy số lượng thương hiệu:", error);

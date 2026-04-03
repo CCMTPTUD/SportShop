@@ -5,6 +5,7 @@ import { FaHeart, FaStar } from "react-icons/fa";
 import { FiHeart, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
+import { API_ENDPOINTS } from "../config/api";
 import "./Category.css";
 
 const Category = () => {
@@ -33,7 +34,7 @@ const Category = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/products/category/${categoryId}`
+          API_ENDPOINTS.PRODUCTS_BY_CATEGORY(categoryId)
         );
         setProducts(response.data.products || response.data);
         setCategoryName(response.data.categoryName || "Danh mục");

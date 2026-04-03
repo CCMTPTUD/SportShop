@@ -5,6 +5,7 @@ import { FaHeart, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
+import { API_ENDPOINTS } from "../config/api";
 import "./Shop.css";
 
 const Shop = () => {
@@ -35,9 +36,9 @@ const Shop = () => {
       try {
         setIsLoading(true);
         const [prodRes, catRes, brandRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/products"),
-          axios.get("http://localhost:5000/api/categories"),
-          axios.get("http://localhost:5000/api/brands"),
+          axios.get(API_ENDPOINTS.PRODUCTS),
+          axios.get(API_ENDPOINTS.CATEGORIES),
+          axios.get(API_ENDPOINTS.BRANDS),
         ]);
         setProducts(prodRes.data);
         setCategories(catRes.data);

@@ -5,6 +5,7 @@ import { FaStar, FaRegStar, FaStarHalfAlt, FaPaperPlane } from 'react-icons/fa';
 import axios from 'axios';
 import Header from '../components/Header/Header';
 import { useCart } from '../context/CartContext';
+import { API_ENDPOINTS } from '../config/api';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -21,7 +22,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const { data } = await axios.get(API_ENDPOINTS.PRODUCT_DETAIL(id));
         // Gộp ảnh chính và thư viện ảnh phụ vào một mảng duy nhất để render UI thuận tiện
         const allImages = [data.imageUrl, ...(data.gallery || [])].filter(Boolean);
         

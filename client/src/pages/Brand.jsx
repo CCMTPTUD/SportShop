@@ -5,6 +5,7 @@ import { FaHeart, FaStar } from "react-icons/fa";
 import { FiHeart, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
+import { API_ENDPOINTS } from "../config/api";
 import "./Brand.css";
 
 const Brand = () => {
@@ -33,7 +34,7 @@ const Brand = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/products/brand/${brandId}`
+          API_ENDPOINTS.PRODUCTS_BY_BRAND(brandId)
         );
         setProducts(response.data.products || response.data);
         setBrandName(response.data.brandName || "Thương hiệu");

@@ -48,6 +48,9 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+      args:
+        # Point client to server through internal Docker network
+        VITE_API_URL: http://server:5000
     container_name: sportshop-client
     ports:
       - "5173:80"

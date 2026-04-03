@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 import "./AdminCategory.css";
 import { FiEdit2, FiTrash2, FiPlus, FiX, FiArrowLeft } from "react-icons/fi";
 
@@ -19,7 +20,7 @@ const AdminCategory = () => {
     image: "",
   });
 
-  const API_URL = "http://localhost:5000/api/categories";
+  const API_URL = API_ENDPOINTS.CATEGORIES;
 
   useEffect(() => {
     const role = localStorage.getItem("userRole");

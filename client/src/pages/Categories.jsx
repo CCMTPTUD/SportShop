@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import Header from "../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 import "./Categories.css";
 
 const Categories = () => {
@@ -20,7 +21,7 @@ const Categories = () => {
   const fetchCategories = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get("http://localhost:5000/api/categories");
+      const response = await axios.get(API_ENDPOINTS.CATEGORIES);
       setCategories(response.data);
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);

@@ -2,6 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FiMail, FiLock } from "react-icons/fi";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 import "./Auth.css";
 
 const Login = () => {
@@ -16,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        API_ENDPOINTS.LOGIN,
         formData,
       );
 
