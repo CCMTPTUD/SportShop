@@ -31,14 +31,29 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
+            set -e
+
             # Di chuyển vào thư mục chứa code
             cd ~/sportshop
 
+            # Tương thích cả Docker Compose V2 (docker compose) và V1 (docker-compose)
+            if docker compose version >/dev/null 2>&1; then
+              COMPOSE_CMD="docker compose"
+            elif docker-compose version >/dev/null 2>&1; then
+              COMPOSE_CMD="docker-compose"
+            else
+              echo "Khong tim thay Docker Compose tren VPS"
+              exit 1
+            fi
+
             # Dừng và xóa các container cũ đang chạy
-            docker compose down
+            $COMPOSE_CMD down || true
 
             # Build lại image mới (có chứa code mới) và chạy ngầm (-d)
-            docker compose up -d --build
+            $COMPOSE_CMD up -d --build
+
+            # In trạng thái để dễ debug nếu có lỗi runtime
+            $COMPOSE_CMD ps
 
             # Xóa các Docker image "rác" sinh ra trong quá trình build để giải phóng ổ cứng (giữ lại 28GB cho bạn)
             docker image prune -f
