@@ -1,18 +1,21 @@
 name: Deploy SportShop to AWS VPS
 
-# Kích hoạt tự động khi có code mới được Push lên nhánh dev
+# Kích hoạt sau khi workflow build/push Docker Hub chạy thành công
 on:
-  push:
-    branches: ["dev"]
-    # Mẹo: Nếu bạn muốn test luồng này trên nhánh dev trước, hãy đổi "main" thành "dev"
+  workflow_run:
+    workflows: ["Build And Push Docker Images"]
+    types: [completed]
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'dev' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: 1. Kéo source code mới nhất
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: 2. Copy code sang VPS AWS
         uses: appleboy/scp-action@v0.1.7
@@ -46,11 +49,26 @@ jobs:
               exit 1
             fi
 
+            # Thiết lập tag image cần deploy từ Docker Hub
+            export DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+            export IMAGE_TAG="dev-latest"
+
+            if [ -z "$DOCKERHUB_USERNAME" ]; then
+              echo "Thieu secret DOCKERHUB_USERNAME"
+              exit 1
+            fi
+
+            # Đăng nhập Docker Hub để pull image (hữu ích khi repo private)
+            if [ -n "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+              echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            fi
+
             # Dừng và xóa các container cũ đang chạy
             $COMPOSE_CMD down || true
 
-            # Build lại image mới (có chứa code mới) và chạy ngầm (-d)
-            $COMPOSE_CMD up -d --build
+            # Pull image mới từ Docker Hub và chạy lại container (không build tại VPS)
+            $COMPOSE_CMD pull
+            $COMPOSE_CMD up -d --force-recreate --remove-orphans
 
             # In trạng thái để dễ debug nếu có lỗi runtime
             $COMPOSE_CMD ps
