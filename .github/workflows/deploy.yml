@@ -50,7 +50,7 @@ jobs:
             fi
 
             # Thiết lập tag image cần deploy từ Docker Hub
-            export DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+            export DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME || secrets.DOCKER_USERNAME }}"
             export IMAGE_TAG="dev-latest"
 
             if [ -z "$DOCKERHUB_USERNAME" ]; then
@@ -59,8 +59,8 @@ jobs:
             fi
 
             # Đăng nhập Docker Hub để pull image (hữu ích khi repo private)
-            if [ -n "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
-              echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            if [ -n "${{ secrets.DOCKERHUB_TOKEN || secrets.DOCKER_TOKEN }}" ]; then
+              echo "${{ secrets.DOCKERHUB_TOKEN || secrets.DOCKER_TOKEN }}" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             fi
 
             # Dừng và xóa các container cũ đang chạy
