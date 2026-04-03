@@ -1,0 +1,44 @@
+name: Deploy SportShop to AWS VPS
+
+# Kích hoạt tự động khi có code mới được Push lên nhánh dev
+on:
+  push:
+    branches: ["dev"]
+    # Mẹo: Nếu bạn muốn test luồng này trên nhánh dev trước, hãy đổi "main" thành "dev"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Kéo source code mới nhất
+        uses: actions/checkout@v4
+
+      - name: 2. Copy code sang VPS AWS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: "."
+          target: "~/sportshop"
+          # Ghi đè file mới lên file cũ. Yên tâm là nó sẽ KHÔNG xóa file .env mà bạn đã tự tay tạo trên VPS.
+
+      - name: 3. Chạy lệnh Deploy trên VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            # Di chuyển vào thư mục chứa code
+            cd ~/sportshop
+
+            # Dừng và xóa các container cũ đang chạy
+            docker compose down
+
+            # Build lại image mới (có chứa code mới) và chạy ngầm (-d)
+            docker compose up -d --build
+
+            # Xóa các Docker image "rác" sinh ra trong quá trình build để giải phóng ổ cứng (giữ lại 28GB cho bạn)
+            docker image prune -f
