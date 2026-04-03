@@ -1,5 +1,12 @@
 // API Configuration - Support both development and production
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+// In development: use VITE_API_URL env var (default localhost:5000)
+// In production Docker: use relative path /api (Nginx reverse proxy to server:5000)
+// In production remote: use absolute URL to backend domain
+
+const isDev = import.meta.env.DEV;
+const API_BASE_URL = isDev 
+  ? (import.meta.env.VITE_API_URL || "http://localhost:5000")
+  : ""; // Production: empty string means relative path (/api/...)
 
 export const API_ENDPOINTS = {
   // Auth
