@@ -1,0 +1,128 @@
+.promotion-page {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+.promotion-header {
+  text-align: center;
+  padding: 50px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 40px;
+  border-radius: 20px;
+  margin: 20px auto 40px;
+  max-width: 800px;
+}
+
+.promotion-header h1 {
+  font-size: 2.0rem;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s infinite;
+  color: #333;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-top: 10px;
+  opacity: 0.9;
+  color: #555;
+}
+
+.category-section {
+  margin: 40px 0;
+  padding: 20px;
+}
+
+.category-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  border-bottom: 3px solid #ff9f43;
+  display: inline-block;
+  padding-bottom: 10px;
+  color: #ff9f43;
+  font-weight: bold;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #333;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.product-image {
+  height: 200px;
+  background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.sale-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff6b6b;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 1.2rem;
+  margin: 0 0 15px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 1rem;
+}
+
+.discounted-price {
+  color: #ff6b6b;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

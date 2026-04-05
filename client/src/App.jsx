@@ -29,6 +29,7 @@ import AdminCategory from "./pages/AdminCategory";
 import AdminBrand from "./pages/AdminBrand";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
+import Promotion from "./pages/Promotion";
 
 function App() {
   return (
@@ -87,6 +88,7 @@ function App() {
             </AdminRoute>
           }
         />
+        <Route path="/khuyen-mai" element={<Promotion />} />
         <Route path="*" element={<h1>404 - Trang không tồn tại</h1>} />
       </Routes>
     </BrowserRouter>
